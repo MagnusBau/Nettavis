@@ -2,8 +2,8 @@
 
 var mysql = require("mysql");
 
-const ArticleDao = require("./articledao.js");
-const runsqlfile = require("./runsqlfile.js");
+const ArticleDao = require("../dao/articledao.js");
+const runsqlfile = require("../dao/runsqlfile.js");
 
 // GitLab CI Pool
 var pool = mysql.createPool({
@@ -19,8 +19,8 @@ var pool = mysql.createPool({
 let articleDao = new ArticleDao(pool);
 
 beforeAll(done => {
-    runsqlfile("dao/create_tables.sql", pool, () => {
-        runsqlfile("dao/create_testdata.sql", pool, done);
+    runsqlfile("./dao/create_tables.sql", pool, () => {
+        runsqlfile("./dao/create_testdata.sql", pool, done);
     });
 });
 

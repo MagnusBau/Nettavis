@@ -6,7 +6,7 @@ var express = require("express");
 var mysql = require("mysql");
 var app = express();
 var bodyParser = require("body-parser");
-const ArticleDao = require("./dao/articledao.js");
+const ArticleDao = require("../dao/articledao.js");
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
