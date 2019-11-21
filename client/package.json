@@ -5,13 +5,15 @@
     "postinstall": "node ./scripts/enable_babelrc.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "flow": "flow"
   },
   "dependencies": {
     "axios": "^0.19.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.2.0",
-    "react-simplified": "^1.6.1"
+    "react-simplified": "^1.6.1",
+    "flow-bin": "^0.112.0"
   },
   "browserslist": {
     "production": [
@@ -24,5 +26,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-flow": "^7.0.0",
+    "flow-bin": "^0.112.0"
   }
 }

@@ -1,17 +1,26 @@
 {
   "name": "nettavis",
-  "version": "0.0.1",
+  "main": "lib/index.js",
+  "version": "1.0.0",
   "dependencies": {
     "express": "^4.16.3",
     "mysql": "^2.16.0",
     "body-parser": "^1.18.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/node": "^7.7.0",
+    "@babel/preset-flow": "^7.0.0",
     "flow-bin": "^0.112.0",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.0"
   },
   "scripts": {
+    "start": "nodemon --exec babel-node src/server.js",
     "test": "jest",
-    "flow": "flow"
+    "flow": "flow",
+    "build": "babel src/ -d lib/",
+    "prepublish": "npm run build"
   }
 }
