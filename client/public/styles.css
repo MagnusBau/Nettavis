@@ -1,0 +1,31 @@
+a.custom-card,
+a.custom-card:hover {
+    color: inherit;
+}
+
+html, body {
+    background-color: #F6F6F6 !important;
+}
+
+
+.mt-3 {
+    margin-top: 10px !important;
+}
+
+.card {
+    margin: 20px;
+}
+
+marquee {
+    background-color: #353942;
+    border: 1px solid black;
+    font-size: 25px;
+}
+
+a.scroll{
+    color: #9D959A;
+}
+a.scroll:hover {
+    color: white;
+    text-decoration: none;
+}

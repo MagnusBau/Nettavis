@@ -1,0 +1,17 @@
+{
+  "name": "nettavis",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mysql": "^2.16.0",
+    "body-parser": "^1.18.3"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.112.0",
+    "jest": "^24.9.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "flow": "flow"
+  }
+}
