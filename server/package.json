@@ -26,7 +26,8 @@
     "@babel/preset-flow": "^7.0.0",
     "flow-bin": "^0.112.0",
     "jest": "^24.9.0",
-    "nodemon": "^2.0.0"
+    "nodemon": "^2.0.0",
+    "babel-jest": "^24.9.0"
   },
   "scripts": {
     "start": "nodemon --exec babel-node src/server.js",
