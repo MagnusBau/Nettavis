@@ -8,6 +8,7 @@ import { createHashHistory } from 'history';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import {ArtikkelService, Artikkel, Kategori} from './Service'
+import {ImageProps} from "react-bootstrap";
 
 const history = createHashHistory();
 
@@ -123,7 +124,7 @@ export class Article extends Component<{title: React.Node, image?: React.Node, a
     return(
         <div className="card mb-4 border-0" style={{width: 500, minHeight: 420}}>
           <img src={this.props.image} onError={this.addDefault} className="card-img-top" title={this.props.alt} alt={this.props.alt}/>
-          <div id={"card" + this.props.id} className="card-img-overlay">
+          <div id={"card" + String(this.props.id)} className="card-img-overlay">
 
           </div>
             <div className="card-body">
@@ -132,13 +133,13 @@ export class Article extends Component<{title: React.Node, image?: React.Node, a
         </div>
     );
   }
-  addDefault(ev){
+  addDefault(ev: SyntheticInputEvent<HTMLImageElement>){
     ev.target.src = "https://gotrips.lk/site/images/uploads/img.jpg";
     var h5 = document.createElement("h5");
     h5.style.color = "#FFFFFF";
-    h5.innerHTML = this.props.alt;
+    h5.innerHTML = String(this.props.alt);
 
-    document.getElementById("card" + this.props.id).appendChild(h5);
+    document.getElementById("card" + String(this.props.id)).appendChild(h5);
   }
 }
 
@@ -155,7 +156,7 @@ export class SelectedArticle extends Component<{title: React.Node, children?: Re
             <div className="card-text" style={{whiteSpace: 'pre-line'}}>{this.props.children}</div>
             <br/>
             <footer className="blockquote-footer">
-              {"Forfatter: " + this.props.forfatter}
+              {"Forfatter: " + String(this.props.forfatter)}
             </footer>
             <br/>
             <Row>
@@ -167,7 +168,7 @@ export class SelectedArticle extends Component<{title: React.Node, children?: Re
               </Column>
             </Row>
             <footer>
-              {"Sist oppdatert: " + this.props.timestamp}
+              {"Sist oppdatert: " + String(this.props.timestamp)}
             </footer>
           </div>
         </div>
@@ -190,19 +191,19 @@ export class SelectedArticle extends Component<{title: React.Node, children?: Re
     this.show = false;
   }
   edit(){
-    history.push("edit/" + this.props.id)
+    history.push("edit/" + String(this.props.id))
   }
 
   delete(){
-    artikkelService.deleteArticle(this.props.id);
+    artikkelService.deleteArticle(parseInt(this.props.id));
     history.push("/")
   }
 
-  addDefault(ev){
+  addDefault(ev: SyntheticInputEvent<HTMLImageElement>){
     ev.target.src = "https://gotrips.lk/site/images/uploads/img.jpg";
     var h5 = document.createElement("h5");
     h5.style.color = "#FFFFFF";
-    h5.innerHTML = this.props.alt;
+    h5.innerHTML = String(this.props.alt);
 
     document.getElementById("card").appendChild(h5);
   }

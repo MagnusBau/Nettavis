@@ -264,11 +264,11 @@ class Kultur extends Component {
 }
 
 class article extends Component<{match : {params: {id: number}}}>{
-    selectedArticle: Artikkel = new Artikkel();
+    selectedArticle: Artikkel = new Artikkel(1, "init", "init", "init", "init", "init", "init", "init", "init");
     comments: Kommentar[] = [];
 
-    nickname: String = "Curious Betsy";
-    tekst: String = "Bra Artikkel!";
+    nickname: string = "Curious Betsy";
+    tekst: string = "Bra Artikkel!";
     render(){
         return(
             <div>
@@ -326,14 +326,14 @@ class article extends Component<{match : {params: {id: number}}}>{
 }
 
 class LastOpp extends Component {
-    tittel: String = "";
-    tekst: String = "";
-    bilde: String = "";
-    forfatter: String = "";
-    viktighet: String = "2";
+    tittel: string = "";
+    tekst: string = "";
+    bilde: string = "";
+    forfatter: string = "";
+    viktighet: string = "2";
     kategorier: Kategori[] = [];
-    alt: String = "";
-    kategori: String = '1';
+    alt: string = "";
+    kategori: string = '1';
     render() {
         return(
             <div className="row justify-content-center">
@@ -430,7 +430,7 @@ class LastOpp extends Component {
 }
 
 class edit extends Component<{match : {params: {id: number}}}>{
-    selectedArticle: Artikkel = new Artikkel();
+    selectedArticle: Artikkel =  new Artikkel(1, "init", "init", "init", "init", "init", "init", "init", "init");
     kategorier: Kategori[] = [];
     kategori = 1;
     render() {
@@ -501,10 +501,10 @@ class edit extends Component<{match : {params: {id: number}}}>{
     }
     handleViktighet(event){
         if (event.target.checked){
-            this.viktighet = '1';
+            this.selectedArticle.viktighet = '1';
         }
         else {
-            this.viktighet = '2';
+            this.selectedArticle.viktighet = '2';
         }
     }
 
