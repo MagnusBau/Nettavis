@@ -110,7 +110,7 @@ test("get comments from db", done => {
             "Test callback: status=" + status + ", data=" + JSON.stringify(data)
         );
         expect(data.length).toBeGreaterThanOrEqual(2);
-        expect(data[0].nickname).toBe("Curious Betsy");
+        expect(data[0].nickname).toBe("Curious Bob");
         done();
     }
 
