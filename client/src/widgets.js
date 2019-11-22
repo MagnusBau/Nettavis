@@ -122,8 +122,10 @@ export class Article extends Component<{title: React.Node, image?: React.Node, a
   render() {
     return(
         <div className="card mb-4 border-0" style={{width: 500, minHeight: 420}}>
-          <img src={this.props.image} onError={this.addDefault} className="card-img-top" title={this.props.alt}/>
-          <div id={"card" + this.props.id} className="card-img-overlay"></div>
+          <img src={this.props.image} onError={this.addDefault} className="card-img-top" title={this.props.alt} alt={this.props.alt}/>
+          <div id={"card" + this.props.id} className="card-img-overlay">
+
+          </div>
             <div className="card-body">
               <h3 className="card-title">{this.props.title}</h3>
             </div>
@@ -197,7 +199,7 @@ export class SelectedArticle extends Component<{title: React.Node, children?: Re
   }
 
   addDefault(ev){
-    ev.target.src = "https://gotrips.lk/site/images/uploads/img.jpg"
+    ev.target.src = "https://gotrips.lk/site/images/uploads/img.jpg";
     var h5 = document.createElement("h5");
     h5.style.color = "#FFFFFF";
     h5.innerHTML = this.props.alt;
@@ -221,21 +223,6 @@ export class Comment extends Component<{tekst: React.Node, nickname: React.Node}
             </div>
           </div>
         </div>
-    );
-  }
-}
-
-
-export class Scroll extends Component<{elements: React.Node[]}>{
-  render() {
-    return(
-        <marquee behavior="scroll" direction="left">
-          {this.props.elements.map(i => (
-              <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
-                {i.tittel}
-              </NavLink>
-          ))}
-          </marquee>
     );
   }
 }

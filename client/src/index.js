@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
-import { Alert, Card, CardWrap, NavBar, Button, Row, Column, Article, SelectedArticle, Scroll, Comment, AddComment} from './widgets';
+import { Alert, Card, CardWrap, NavBar, Button, Row, Column, Article, SelectedArticle, Comment} from './widgets';
 import {ArtikkelService, Artikkel, Kategori, Kommentar} from './Service'
 
 import { createHashHistory } from 'history';
@@ -43,7 +43,7 @@ class Footer extends Component {
             <footer className="page-footer font-small special-color-dark pt-4" style={{backgroundColor: '#353942'}}>
                 <div className="container">
                     <div className="row justify-content-center" style={{fontSize: 30, color: 'white'}}>
-                        <Button.Info>Last inn flere artikler</Button.Info>
+                        <Button.Info onClick={this.loadMore}>Last inn flere artikler</Button.Info>
                     </div>
                 </div>
                 <div className="footer-copyright text-center py-3" style={{color: 'white'}}>Laget av
@@ -53,6 +53,9 @@ class Footer extends Component {
             </footer>
         );
     }
+    loadMore(){
+
+    }
 }
 
 class Home extends Component {
@@ -61,7 +64,13 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <Scroll elements={this.siste}/>
+                <marquee behavior="scroll" direction="left">
+                    {this.siste.map(i => (
+                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
+                            {i.tittel}
+                        </NavLink>
+                    ))}
+                </marquee>
             <div className="container">
                 <div className="row justify-content-center">
                 {this.artikler.map(i => (
@@ -96,7 +105,13 @@ class Nyheter extends Component {
     render() {
         return (
             <div>
-                <Scroll elements={this.siste}/>
+                <marquee behavior="scroll" direction="left">
+                    {this.siste.map(i => (
+                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
+                            {i.tittel}
+                        </NavLink>
+                    ))}
+                </marquee>
             <div className="container">
                 <div className="row justify-content-center">
                     {this.artikler.map(i => (
@@ -131,7 +146,13 @@ class Sport extends Component {
     render() {
         return (
             <div>
-                <Scroll elements={this.siste}/>
+                <marquee behavior="scroll" direction="left">
+                    {this.siste.map(i => (
+                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
+                            {i.tittel}
+                        </NavLink>
+                    ))}
+                </marquee>
             <div className="container">
                 <div className="row justify-content-center">
                     {this.artikler.map(i => (
@@ -166,7 +187,13 @@ class Teknologi extends Component {
     render() {
         return (
             <div>
-                <Scroll elements={this.siste}/>
+                <marquee behavior="scroll" direction="left">
+                    {this.siste.map(i => (
+                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
+                            {i.tittel}
+                        </NavLink>
+                    ))}
+                </marquee>
             <div className="container">
                 <div className="row justify-content-center">
                     {this.artikler.map(i => (
@@ -201,7 +228,13 @@ class Kultur extends Component {
     render() {
         return (
             <div>
-                <Scroll elements={this.siste}/>
+                <marquee behavior="scroll" direction="left">
+                    {this.siste.map(i => (
+                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
+                            {i.tittel}
+                        </NavLink>
+                    ))}
+                </marquee>
             <div className="container">
                 <div className="row justify-content-center">
                     {this.artikler.map(i => (
@@ -231,7 +264,7 @@ class Kultur extends Component {
 }
 
 class article extends Component<{match : {params: {id: number}}}>{
-    selectedArticle: Artikkel = new Artikkel();
+    selectedArticle: Artikkel = new Artikkel(1, String, "init", "init", "init", "init", "init", "init", "init");
     comments: Kommentar[] = [];
     nickname: String = "Curious Betsy";
     tekst: String = "Bra Artikkel!";
