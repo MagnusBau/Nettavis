@@ -420,7 +420,7 @@ class LastOpp extends Component {
             }, console.log("Artikkel lastet opp"))
             .catch((error: Error) => console.error(error.message))
     }
-    
+
     mounted() {
         artikkelService
         .getCategories()

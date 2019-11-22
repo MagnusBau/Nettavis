@@ -13,7 +13,6 @@
   "jest": {
     "verbose": true,
     "collectCoverage": true,
-    "testRegex": "./tests/.+Test\\.js$",
     "coverageReporters": [
       "json",
       "html"
