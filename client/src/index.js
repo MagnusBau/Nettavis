@@ -264,7 +264,7 @@ class Kultur extends Component {
 }
 
 class article extends Component<{match : {params: {id: number}}}>{
-    selectedArticle: Artikkel = new Artikkel(1, String, "init", "init", "init", "init", "init", "init", "init");
+    selectedArticle: Artikkel = new Artikkel();
     comments: Kommentar[] = [];
     nickname: String = "Curious Betsy";
     tekst: String = "Bra Artikkel!";

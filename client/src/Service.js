@@ -6,15 +6,15 @@ const instance = axios.create({baseURL: 'http://localhost:8080'});
 
 export class Artikkel {
     id: number;
-    tittel: String;
-    tekst: String;
-    bilde: String;
-    forfatter: String;
-    viktighet: String;
-    kategoriid: String;
-    alt: String;
-    tidspunkt: String;
-    constructor(id: number, tittel: String, tekst: String, bilde: String, forfatter: String, viktighet: String, kategoriid: String, alt: String, tidspunkt: String){
+    tittel: string;
+    tekst: string;
+    bilde: string;
+    forfatter: string;
+    viktighet: string;
+    kategoriid: string;
+    alt: string;
+    tidspunkt: string;
+    constructor(id: number, tittel: string, tekst: string, bilde: string, forfatter: string, viktighet: string, kategoriid: string, alt: string, tidspunkt: string){
         this.id = id;
         this.tittel = tittel;
         this.tekst = tekst;
@@ -29,8 +29,8 @@ export class Artikkel {
 
 export class Kategori {
     id: number;
-    navn: String;
-    constructor(id: number, navn: String){
+    navn: string;
+    constructor(id: number, navn: string){
         this.id = id;
         this.navn = navn;
     }
@@ -38,10 +38,10 @@ export class Kategori {
 
 export class Kommentar {
     id: number;
-    nickname: String;
-    tekst: String;
+    nickname: string;
+    tekst: string;
     artikkelid: number;
-    constructor(id: number, nickname: String, tekst: String, artikkelid: number){
+    constructor(id: number, nickname: string, tekst: string, artikkelid: number){
         this.id = id;
         this.nickname = nickname;
         this.tekst = tekst;

@@ -1,4 +1,4 @@
-image: node:8
+image: node:latest
 
 # Set up MySQL test-database
 services:
