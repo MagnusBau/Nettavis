@@ -132,17 +132,17 @@ test("add comment to db", done => {
     );
 });
 
-test("remove one article from db", done => {
-    function callback(status, data) {
-        console.log(
-            "Test callback: status=" + status + ", data=" + JSON.stringify(data)
-        );
-        expect(data.affectedRows).toBe(1);
-        done();
-    }
-
-    articleDao.deleteOne(3, callback);
-});
+// test("remove one article from db", done => {
+//     function callback(status, data) {
+//         console.log(
+//             "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+//         );
+//         expect(data.affectedRows).toBe(1);
+//         done();
+//     }
+//
+//     articleDao.deleteOne(3, callback);
+// });
 
 test("update one article from db", done => {
     function callback(status, data) {
