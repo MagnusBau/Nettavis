@@ -38,7 +38,7 @@ module.exports = class ArticleDao extends Dao {
         );
     }
 
-    getComments(id, callback) {
+    getComments(id, callback: () => void) {
         super.query(
             "Select * from kommentar where artikkelid = ? order by id desc",
             [id],

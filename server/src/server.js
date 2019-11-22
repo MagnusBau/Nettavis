@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json());
 var pool = mysql.createPool({
     connectionLimit: 2,
-    host: "mysql.stud.iie.ntnu.no",
+    host: "mysql.stud.idi.ntnu.no",
     user: "magnubau",
     password: "Xu859jfN",
     database: "magnubau",
