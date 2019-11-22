@@ -19,6 +19,3 @@ run_tests:
   stage: test
   script:
     - npm test
-  artifacts:
-    paths:
-      - coverage/

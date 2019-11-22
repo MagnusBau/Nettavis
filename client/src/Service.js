@@ -74,14 +74,8 @@ export class ArtikkelService {
     getNyheter(){
         return instance.get<Artikkel[]>('/artikkler/nyheter').then(response => response.data);
     }
-    getSport(){
-        return instance.get<Artikkel[]>('/artikkler/sport').then(response => response.data);
-    }
-    getTeknologi(){
-        return instance.get<Artikkel[]>('/artikkler/teknologi').then(response => response.data);
-    }
-    getKultur(){
-        return instance.get<Artikkel[]>('/artikkler/kultur').then(response => response.data);
+    getArticleBycat(id: number){
+        return instance.get<Artikkel[]>('/artikkler/kategori/' + id).then(response => response.data);
     }
     getSiste(){
         return instance.get<Artikkel[]>('/artikkler/siste').then(response => response.data);

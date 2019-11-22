@@ -15,16 +15,10 @@ module.exports = class ArticleDao extends Dao {
         super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where tidspunkt >= DATE_SUB(NOW(), INTERVAL 6 hour ) and viktighet = 1 order by tidspunkt desc", [], callback);
     }
 
-    getSport(callback: () => void) {
-        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where kategoriid = 2 order by tidspunkt desc", [], callback);
-    }
-
-    getTeknologi(callback: () => void) {
-        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where kategoriid = 3 order by tidspunkt desc", [], callback);
-    }
-
-    getKultur(callback: () => void) {
-        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where kategoriid = 4 order by tidspunkt desc", [], callback);
+    getArticleByCat(id: number, callback: () => void) {
+        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where kategoriid = ? order by tidspunkt desc",
+            [id],
+            callback);
     }
 
     getCategories(callback: () => void) {

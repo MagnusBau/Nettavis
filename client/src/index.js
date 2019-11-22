@@ -170,7 +170,7 @@ class Sport extends Component {
 
     mounted() {
         artikkelService
-            .getSport()
+            .getArticleBycat(2)
             .then(artikler => (this.artikler = artikler))
             .catch((error: Error) => console.error(error.message));
         artikkelService
@@ -211,7 +211,7 @@ class Teknologi extends Component {
 
     mounted() {
         artikkelService
-            .getTeknologi()
+            .getArticleBycat(3)
             .then(artikler => (this.artikler = artikler))
             .catch((error: Error) => console.error(error.message));
         artikkelService
@@ -252,7 +252,7 @@ class Kultur extends Component {
 
     mounted() {
         artikkelService
-            .getKultur()
+            .getArticleBycat(4)
             .then(artikler => (this.artikler = artikler))
             .catch((error: Error) => console.error(error.message));
         artikkelService

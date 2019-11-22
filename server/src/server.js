@@ -74,25 +74,9 @@ app.get("/artikkler/siste", (req, res) => {
     });
 });
 
-app.get("/artikkler/sport", (req, res) => {
-    console.log("/artikler/sport: fikk request fra klient");
-    articleDao.getSport((status, data) => {
-        res.status(status);
-        res.json(data);
-    });
-});
-
-app.get("/artikkler/teknologi", (req, res) => {
-    console.log("/artikler/teknologi: fikk request fra klient");
-    articleDao.getTeknologi((status, data) => {
-        res.status(status);
-        res.json(data);
-    });
-});
-
-app.get("/artikkler/kultur", (req, res) => {
-    console.log("/artikler/kultur: fikk request fra klient");
-    articleDao.getKultur((status, data) => {
+app.get("/artikkler/kategori/:id", (req, res) => {
+    console.log("/artikler/kategori: fikk request fra klient");
+    articleDao.getArticleByCat(req.params.id,(status, data) => {
         res.status(status);
         res.json(data);
     });
