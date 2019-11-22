@@ -6,7 +6,7 @@ services:
 
 # Configure test-database
 variables:
-  MYSQL_DATABASE: supertestdb
+  MYSQL_DATABASE: jegharproblemer
   MYSQL_ROOT_PASSWORD: secret
 
 # Install node libraries
