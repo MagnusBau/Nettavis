@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { NavLink } from 'react-router-dom';
 import { createHashHistory } from 'history';
+//$FlowFixMe
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import {ArtikkelService, Artikkel, Kategori} from './Service'
@@ -139,6 +140,7 @@ export class Article extends Component<{title: React.Node, image?: React.Node, a
     h5.style.color = "#FFFFFF";
     h5.innerHTML = String(this.props.alt);
 
+    //$FlowFixMe
     document.getElementById("card" + String(this.props.id)).appendChild(h5);
   }
 }
@@ -205,6 +207,7 @@ export class SelectedArticle extends Component<{title: React.Node, children?: Re
     h5.style.color = "#FFFFFF";
     h5.innerHTML = String(this.props.alt);
 
+    //$FlowFixMe
     document.getElementById("card").appendChild(h5);
   }
 }
