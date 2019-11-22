@@ -1,8 +1,7 @@
 variables:
-  MYSQL_DATABASE: School
+  MYSQL_DATABASE: supertestdb
   MYSQL_USER: root
-  MYSQL_ROOT_PASSWORD: ''
-  MYSQL_ALLOW_EMPTY_PASSWORD: 1
+  MYSQL_ROOT_PASSWORD: secret
 
 before_script:
   - npm install -g flow-bin
