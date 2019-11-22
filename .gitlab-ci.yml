@@ -3,12 +3,10 @@ variables:
   MYSQL_USER: root
   MYSQL_ROOT_PASSWORD: secret
 
-before_script:
-  - npm install -g flow-bin
-  - cd server && npm install
 test:
   image: node:latest
   services:
     - mysql:5 # The JS mysql-library does not yet support the newest mysql protocol
   script:
-    - npm test
+    - npm install -g flow-bin
+    - cd server && npm install && npm test && flow check src
