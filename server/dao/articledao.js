@@ -67,8 +67,8 @@ module.exports = class ArticleDao extends Dao {
         )
     }
 
-    updateOne(Artikkel: Object, callback: () => void) {
-        var val = [Artikkel.tittel, Artikkel.tekst, Artikkel.bilde, Artikkel.forfatter, Artikkel.viktighet, Artikkel.kategoriid, Artikkel.alt, Artikkel.id];
+    updateOne(id: number, Artikkel: Object, callback: () => void) {
+        var val = [Artikkel.tittel, Artikkel.tekst, Artikkel.bilde, Artikkel.forfatter, Artikkel.viktighet, Artikkel.kategoriid, Artikkel.alt, id];
         super.query(
             "update artikkel set tittel = ?, tekst = ?, bilde = ?, forfatter = ?, viktighet = ?, kategoriid = ?, alt = ? where id = ?",
             val,

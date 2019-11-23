@@ -14,8 +14,7 @@ export class Artikkel {
     kategoriid: string;
     alt: string;
     tidspunkt: string;
-    constructor(id: number, tittel: string, tekst: string, bilde: string, forfatter: string, viktighet: string, kategoriid: string, alt: string, tidspunkt: string){
-        this.id = id;
+    constructor(tittel: string, tekst: string, bilde: string, forfatter: string, viktighet: string, kategoriid: string, alt: string){
         this.tittel = tittel;
         this.tekst = tekst;
         this.bilde = bilde;
@@ -23,7 +22,6 @@ export class Artikkel {
         this.viktighet = viktighet;
         this.kategoriid = kategoriid;
         this.alt = alt;
-        this.tidspunkt = tidspunkt;
     }
 }
 

@@ -44,7 +44,7 @@ app.post("/kommentarer", (req, res) => {
 
 app.put("/artikkel/:id", (req, res) => {
     console.log("Fikk UPDATE-request fra klienten");
-    articleDao.updateOne(req.body, (status, data) => {
+    articleDao.updateOne(parseInt(req.params.id), req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });

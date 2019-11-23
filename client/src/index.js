@@ -182,7 +182,7 @@ class Kategorier extends Component<{match : {params: {id: number}}}>{
 }
 
 class article extends Component<{match : {params: {id: number}}}>{
-    selectedArticle: Artikkel = new Artikkel(1, "init", "init", "init", "init", "init", "init", "init", "init");
+    selectedArticle: Artikkel = new Artikkel("init", "init", "init", "init", "init", "init", "init");
     comments: Kommentar[] = [];
 
     nickname: string = "Curious Betsy";
@@ -378,7 +378,7 @@ class LastOpp extends Component {
             this.mounted();
             return;
         }
-        let tempArticle = new Artikkel(0, this.tittel, this.tekst, this.bilde, this.forfatter, this.viktighet, this.kategori, this.alt, '0');
+        let tempArticle = new Artikkel( this.tittel, this.tekst, this.bilde, this.forfatter, this.viktighet, this.kategori, this.alt);
         artikkelService.postArticle(tempArticle)
             .then((response) => {
                 history.push('/');
@@ -395,7 +395,7 @@ class LastOpp extends Component {
 }
 
 class edit extends Component<{match : {params: {id: number}}}>{
-    selectedArticle: Artikkel =  new Artikkel(1, "init", "init", "init", "init", "init", "init", "init", "init");
+    selectedArticle: Artikkel =  new Artikkel("init", "init", "init", "init", "init", "init", "");
     kategorier: Kategori[] = [];
     kategori = 1;
 
@@ -524,13 +524,15 @@ class edit extends Component<{match : {params: {id: number}}}>{
             this.mounted();
             return;
         }
-        this.kategori = 1;
-        let tempArticle = new Artikkel(this.selectedArticle.id, this.selectedArticle.tittel, this.selectedArticle.tekst, this.selectedArticle.bilde, this.selectedArticle.forfatter, this.selectedArticle.viktighet, this.selectedArticle.kategoriid, this.selectedArticle.alt, '0');
-        artikkelService.updateArticle(this.selectedArticle.id, tempArticle)
-            .then((response) => {
-                history.push('/article/' + this.selectedArticle.id);
-            }, console.log("Artikkel oppdatert"))
-            .catch((error: Error) => console.error(error.message));
+        else{
+            this.kategori = 1;
+            let tempArticle = new Artikkel(this.selectedArticle.tittel, this.selectedArticle.tekst, this.selectedArticle.bilde, this.selectedArticle.forfatter, this.selectedArticle.viktighet, this.selectedArticle.kategoriid, this.selectedArticle.alt);
+            artikkelService.updateArticle(this.selectedArticle.id, tempArticle)
+                .then((response) => {
+                    history.push('/article/' + this.selectedArticle.id);
+                }, console.log("Artikkel oppdatert"))
+                .catch((error: Error) => console.error(error.message));
+        }
     }
     mounted() {
         artikkelService
