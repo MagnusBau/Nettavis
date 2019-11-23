@@ -110,7 +110,7 @@ class Sok extends Component{
                         ))}
                     </div>
                 </div>
-                <div className="row justify-content-center" style={{fontSize: 30, color: 'white', marginBottom: '75%'}}>
+                <div className="row justify-content-center" style={{fontSize: 30, color: 'white', marginBottom: '50%'}}>
                     <Button.Info onClick={this.loadMore}>Last inn flere artikler</Button.Info>
                 </div>
             </div>
