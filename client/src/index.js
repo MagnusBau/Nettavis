@@ -20,17 +20,14 @@ class Menu extends Component {
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark ">
                 <a className="navbar-brand" href="#">Nettavis</a>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div className="navbar-nav mr-auto">
+                <div className="navbar" id="navbarNavAltMarkup">
+                    <div className="navbar-nav ml-auto">
                         <a className="nav-item nav-link" href="#nyheter">Nyheter</a>
                         {this.kategorier.map(i => (
                             <a className="nav-item nav-link" key={i.id} href={"#kategori/" + i.id}>{i.navn}</a>
                         ))}
                         <a className="nav-item nav-link" href="#lastopp">Last opp</a>
+                        <a className="nav-item nav-link" href="#søk">Søk</a>
                     </div>
                 </div>
             </nav>
@@ -77,6 +74,66 @@ export class Scroll extends Component {
             .getSiste()
             .then(artikler => (this.siste = artikler))
             .catch((error: Error) => console.error(error.message))
+    }
+}
+
+class Sok extends Component{
+    artikler: Artikkel[] = [];
+    sok: string = "";
+    antall: number = 4;
+    render() {
+        return (
+            <div id="wrap">
+                <div className="container" id="main">
+                    <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                        </div>
+                        <input type="text"
+                               className="form-control"
+                               placeholder="Søk"
+                               aria-label="søk"
+                               aria-describedby="basic-addon1"
+                               value={this.sok}
+                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                                   this.sok = event.target.value;
+                                   this.search();
+
+                               }}/>
+                    </div>
+                    <div className="row justify-content-center">
+                        {this.artikler.map(i => (
+                            <NavLink exact to={'/article/' + i.id} className="custom-card" key={i.id}>
+                                <Article title={i.tittel} image={i.bilde} alt={i.alt} id={i.id}>
+
+                                </Article>
+                            </NavLink>
+                        ))}
+                    </div>
+                </div>
+                <div className="row justify-content-center" style={{fontSize: 30, color: 'white', marginBottom: '75%'}}>
+                    <Button.Info onClick={this.loadMore}>Last inn flere artikler</Button.Info>
+                </div>
+            </div>
+        );
+    }
+    loadMore(){
+        this.antall += 2;
+        if(this.sok.length > 0){
+            artikkelService
+                .getSearch(this.sok, this.antall)
+                .then(artikler => (this.artikler = artikler))
+                .catch((error: Error) => console.error(error.message));
+        }
+    }
+
+    search() {
+        this.antall = 4;
+        if(this.sok.length > 0){
+            artikkelService
+                .getSearch(this.sok, this.antall)
+                .then(artikler => (this.artikler = artikler))
+                .catch((error: Error) => console.error(error.message));
+        }
     }
 }
 
@@ -574,6 +631,7 @@ if (root)
                 <Route exact path = "/edit/:id" component={edit}/>
                 <Route exact path="/nyheter" component={Nyheter} />
                 <Route exact path="/kategori/:id" component={Kategorier} />
+                <Route exact path="/søk" component={Sok} />
                 <Footer/>
             </div>
         </HashRouter>,

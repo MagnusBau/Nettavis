@@ -82,6 +82,14 @@ app.get("/artikkler/kategori/:id/:limit", (req, res) => {
     });
 });
 
+app.get("/search/:search/:limit", (req, res) => {
+    console.log("/artikler/kategori: fikk request fra klient");
+    articleDao.getSearch(String(req.params.search), parseInt(req.params.limit),(status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.get('/artikkel/:id', (req, res) => {
     console.log("/article/:id: fikk request fra klient");
     articleDao.getOne(req.params.id,(status, data) => {

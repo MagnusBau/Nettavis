@@ -83,4 +83,8 @@ module.exports = class ArticleDao extends Dao {
             callback
         )
     }
+
+    getSearch(search: string, limit: number, callback: () => void) {
+        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, DATE_FORMAT(`tidspunkt`, '%Y-%m-%d %H:%i') AS `tidspunkt` from artikkel where tittel like ? order by tidspunkt desc limit ?", ['%' + search + '%', limit], callback);
+    }
 };

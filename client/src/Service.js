@@ -89,4 +89,7 @@ export class ArtikkelService {
         console.log("Sletter kommentarer");
         return instance.delete<Kommentar>('/kommentarer/' + artikkelid).then(response => response.data);
     }
+    getSearch(search: string, limit: number){
+        return instance.get<Artikkel[]>('/search/' + search + '/' + limit).then(response => response.data);
+    }
 }

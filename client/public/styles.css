@@ -38,3 +38,8 @@ input:invalid{
 textarea:invalid{
     border: 2px solid red;
 }
+
+html, body {
+    height: 100%;
+}
+
