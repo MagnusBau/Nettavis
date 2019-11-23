@@ -9,7 +9,7 @@ var bodyParser = require("body-parser");
 const ArticleDao = require("../dao/articledao.js");
 
 app.use(function(req: express$Request, res: express$Response, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin",/*"http://localhost:3000"*/'*'); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     next();
@@ -50,15 +50,15 @@ app.put("/artikkel/:id", (req, res) => {
     });
 });
 
-app.get("/artikkler", (req, res) => {
+app.get("/artikkler/:limit", (req, res) => {
     console.log("/artikler: fikk request fra klient");
-    articleDao.getAll((status, data) => {
+    articleDao.getAll(parseInt(req.params.limit), (status, data) => {
         res.status(status);
         res.json(data);
     });
 });
 
-app.get("/artikkler/nyheter", (req, res) => {
+app.get("/artikkl/nyheter", (req, res) => {
     console.log("/artikler/nyheter: fikk request fra klient");
     articleDao.getNyheter((status, data) => {
         res.status(status);
@@ -66,7 +66,7 @@ app.get("/artikkler/nyheter", (req, res) => {
     });
 });
 
-app.get("/artikkler/siste", (req, res) => {
+app.get("/artikkler/scroll/siste", (req, res) => {
     console.log("/artikler/siste: fikk request fra klient");
     articleDao.getSiste((status, data) => {
         res.status(status);
@@ -100,7 +100,15 @@ app.get("/kategorier", (req, res) => {
 
 app.delete("/artikkel/:id", (req, res) => {
     console.log("/article/:id: fikk slett-request fra klient");
-    articleDao.deleteOne(req.params.id,(status, data) => {
+    articleDao.deleteOne(parseInt(req.params.id),(status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.delete("/kommentarer/:artikkelid", (req, res) => {
+    console.log("/article/:id: fikk slett-request fra klient");
+    articleDao.deleteComments(parseInt(req.params.artikkelid),(status, data) => {
         res.status(status);
         res.json(data);
     });

@@ -193,12 +193,16 @@ export class SelectedArticle extends Component<{title: React.Node, children?: Re
     this.show = false;
   }
   edit(){
-    history.push("edit/" + String(this.props.id))
+    history.push("/edit/" + String(this.props.id))
   }
 
   delete(){
-    artikkelService.deleteArticle(parseInt(this.props.id));
-    history.push("/")
+    artikkelService
+        .deleteArticle(parseInt(this.props.id))
+        .then((response) => {
+          history.push("/");
+        })
+        .catch((error: Error) => console.error(error.message));
   }
 
   addDefault(ev: SyntheticInputEvent<HTMLImageElement>){

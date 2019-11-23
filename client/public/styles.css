@@ -28,4 +28,13 @@ a.scroll{
 a.scroll:hover {
     color: white;
     text-decoration: none;
+    animation: none;
+}
+
+input:invalid{
+    border: 2px solid red;
+}
+
+textarea:invalid{
+    border: 2px solid red;
 }

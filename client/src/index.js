@@ -42,9 +42,6 @@ class Footer extends Component {
         return (
             <footer className="page-footer font-small special-color-dark pt-4" style={{backgroundColor: '#353942'}}>
                 <div className="container">
-                    <div className="row justify-content-center" style={{fontSize: 30, color: 'white'}}>
-                        <Button.Info onClick={this.loadMore}>Last inn flere artikler</Button.Info>
-                    </div>
                 </div>
                 <div className="footer-copyright text-center py-3" style={{color: 'white'}}>Laget av
                     Magnus Baugerud
@@ -53,14 +50,12 @@ class Footer extends Component {
             </footer>
         );
     }
-    loadMore(){
-
-    }
 }
 
 class Home extends Component {
     artikler: Artikkel[] = [];
     siste: Artikkel[] = [];
+    antall: number = 4;
     render() {
         return (
             <div>
@@ -80,15 +75,23 @@ class Home extends Component {
                             </Article>
                         </NavLink>
                 ))}
-            </div>
-            </div>
+                    </div>
+                </div>
+                <div className="row justify-content-center" style={{fontSize: 30, color: 'white', marginBottom: '10px'}}>
+                    <Button.Info onClick={this.loadMore}>Last inn flere artikler</Button.Info>
+                </div>
             </div>
         );
     }
 
+    loadMore(){
+        this.antall += 2;
+        this.mounted();
+    }
+
     mounted() {
         artikkelService
-            .getArtikkler()
+            .getArtikkler(this.antall)
             .then(artikler => (this.artikler = artikler))
             .catch((error: Error) => console.error(error.message));
         artikkelService
@@ -228,7 +231,7 @@ class Kultur extends Component {
     render() {
         return (
             <div>
-                <marquee behavior="scroll" direction="left">
+                <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
                     {this.siste.map(i => (
                         <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
                             {i.tittel}
@@ -268,7 +271,7 @@ class article extends Component<{match : {params: {id: number}}}>{
     comments: Kommentar[] = [];
 
     nickname: string = "Curious Betsy";
-    tekst: string = "Bra Artikkel!";
+    tekst: string = "";
     render(){
         return(
             <div>
@@ -283,7 +286,7 @@ class article extends Component<{match : {params: {id: number}}}>{
                         <div className="input-group mb-3" style={{width: '50%', marginLeft: '3%'}}>
                             <div className="input-group-prepend">
                             </div>
-                            <input type="text" className="form-control" placeholder="Curious Betsy" aria-label="nickname"
+                            <input id="nick" type="text" className="form-control" placeholder="Curious Betsy" aria-label="nickname"
                                    aria-describedby="basic-addon1" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.nickname = event.target.value)}/>
                         </div>
 
@@ -291,7 +294,7 @@ class article extends Component<{match : {params: {id: number}}}>{
                         <div className="input-group" style={{width: '90%', marginLeft: '3%', marginBottom: '3%'}}>
                             <div className="input-group-prepend">
                             </div>
-                            <textarea className="form-control" aria-label="tekst" rows="3" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.tekst = event.target.value)}></textarea>
+                            <textarea id ="kommentar" className="form-control" value={this.tekst} aria-label="tekst" rows="3" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.tekst = event.target.value)}></textarea>
                         </div>
                         <Button.Info onClick={this.post}> Kommenter </Button.Info>
                     </div>
@@ -304,11 +307,12 @@ class article extends Component<{match : {params: {id: number}}}>{
     }
 
     post(){
-        let tempKommentar = new Kommentar(0, this.nickname, this.tekst, this.props.match.params.id);
+        let tempKommentar = new Kommentar(this.nickname, this.tekst, this.props.match.params.id);
         artikkelService
             .postKommentar(tempKommentar)
             .then((response) => {
-                window.location.reload();
+                this.tekst = "";
+                this.mounted();
             })
             .catch((error: Error) => console.error(error.message));
     }
@@ -334,68 +338,112 @@ class LastOpp extends Component {
     kategorier: Kategori[] = [];
     alt: string = "";
     kategori: string = '1';
+
+    form = null;
+    melding: string = "";
     render() {
         return(
             <div className="row justify-content-center">
                 <div className="mb-4 border-0 " style={{width: '75%'}}>
                     <div className="card-body">
+                        <form ref={e => (this.form = e)}>
 
-                        <label htmlFor="basic-url">Tittel: </label>
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <label htmlFor="basic-url">Tittel: </label>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                </div>
+                                <input type="text"
+                                       className="form-control"
+                                       required
+                                       minLength={1}
+                                       maxLength={40}
+                                       placeholder="Tittel"
+                                       aria-label="tittel"
+                                       aria-describedby="basic-addon1"
+                                       value={this.tittel}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.tittel = event.target.value)}/>
                             </div>
-                            <input type="text" className="form-control" placeholder="Tittel" aria-label="tittel"
-                                   aria-describedby="basic-addon1" value={this.tittel} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.tittel = event.target.value)}/>
-                        </div>
 
-                        <label htmlFor="basic-url">Bilde-url: </label>
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <label htmlFor="basic-url">Bilde-url: </label>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                </div>
+                                <input type="text"
+                                       className="form-control"
+                                       placeholder="Lim inn en bildeadresse her!"
+                                       aria-label="bildeurl"
+                                       aria-describedby="basic-addon4"
+                                       value={this.bilde}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bilde = event.target.value)}/>
                             </div>
-                            <input type="text" className="form-control" placeholder="Lim inn en bildeadresse her!" aria-label="bildeurl"
-                                   aria-describedby="basic-addon4"  value={this.bilde} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bilde = event.target.value)}/>
-                        </div>
 
-                        <label htmlFor="basic-url">Alt: </label>
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <label htmlFor="basic-url">Alt: </label>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                </div>
+                                <input type="text"
+                                       className="form-control"
+                                       placeholder="Dette er et bilde"
+                                       aria-label="alt"
+                                       aria-describedby="basic-addon2"
+                                       value={this.alt}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.alt = event.target.value)}/>
                             </div>
-                            <input type="text" className="form-control" placeholder="Dette er et bilde" aria-label="alt"
-                                   aria-describedby="basic-addon2"  value={this.alt} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.alt = event.target.value)}/>
-                        </div>
 
-                        <label htmlFor="basic-url">Forfatter: </label>
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <label htmlFor="basic-url">Forfatter: </label>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                </div>
+                                <input type="text"
+                                       className="form-control"
+                                       required
+                                       minLength={1}
+                                       maxLength={40}
+                                       placeholder="Ola Nordmann"
+                                       aria-label="forfatter"
+                                       aria-describedby="basic-addon3"
+                                       value={this.forfatter}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.forfatter = event.target.value)}/>
                             </div>
-                            <input type="text" className="form-control" placeholder="Ola Nordmann" aria-label="forfatter"
-                                   aria-describedby="basic-addon3"  value={this.forfatter} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.forfatter = event.target.value)}/>
-                        </div>
 
-                        <div className="form-group">
-                            <label htmlFor="kategori">Kategori: </label>
-                            <select className="form-control" id="kategori"
-                            value={this.kategori} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.kategori = event.target.value)}>
-                                {this.kategorier.map(i =>(
-                                    <option key={i.id} value={i.id}>{i.navn}</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="form-check">
-                            <input type="checkbox" className="form-check-input" id="viktighet" onChange={this.handleViktighet}/>
-                            <label className="form-check-label" htmlFor="viktighet">Viktig</label>
-                        </div>
-
-                        <label htmlFor="basic-url">Tekst: </label>
-                        <div className="input-group">
-                            <div className="input-group-prepend">
+                            <div className="form-group">
+                                <label htmlFor="kategori">Kategori: </label>
+                                <select className="form-control"
+                                        id="kategori"
+                                        value={this.kategori}
+                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.kategori = event.target.value)}>
+                                        {this.kategorier.map(i =>(
+                                            <option key={i.id} value={i.id}>{i.navn}</option>
+                                        ))}
+                                </select>
                             </div>
-                            <textarea className="form-control" aria-label="tekst" rows="10" value={this.tekst} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.tekst = event.target.value)}></textarea>
-                        </div>
+
+                            <div className="form-check">
+                                <input type="checkbox"
+                                       className="form-check-input"
+                                       id="viktighet"
+                                       onChange={this.handleViktighet}/>
+                                <label className="form-check-label" htmlFor="viktighet">Viktig</label>
+                            </div>
+
+                            <label htmlFor="basic-url">Tekst: </label>
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                </div>
+                                <textarea className="form-control"
+                                          required
+                                          minLength={1}
+                                          aria-label="tekst"
+                                          rows="10"
+                                          value={this.tekst}
+                                          placeholder="Skriv her"
+                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.tekst = event.target.value)}> </textarea>
+                            </div>
+                        </form>
 
                     </div>
                     <Button.Info onClick={this.post}> Last opp </Button.Info>
+                    <p style={{color: "red"}}>{this.melding}</p>
                 </div>
             </div>
         );
@@ -413,6 +461,11 @@ class LastOpp extends Component {
     }
 
     post(){
+        if(!this.form || !this.form.checkValidity()){
+            this.melding = "Fyll ut de røde feltene";
+            this.mounted();
+            return;
+        }
         let tempArticle = new Artikkel(0, this.tittel, this.tekst, this.bilde, this.forfatter, this.viktighet, this.kategori, this.alt, '0');
         artikkelService.postArticle(tempArticle)
             .then((response) => {
@@ -433,65 +486,107 @@ class edit extends Component<{match : {params: {id: number}}}>{
     selectedArticle: Artikkel =  new Artikkel(1, "init", "init", "init", "init", "init", "init", "init", "init");
     kategorier: Kategori[] = [];
     kategori = 1;
+
+    form = null;
     render() {
         return(
             <div className="row justify-content-center">
                 <div className="mb-4 border-0 " style={{width: '75%'}}>
                     <div className="card-body">
+                        <form ref={e => (this.form = e)}>
 
-                        <label htmlFor="basic-url">Tittel: </label>
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <label htmlFor="basic-url">Tittel: </label>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                </div>
+                                <input type="text"
+                                       className="form-control"
+                                       required 
+                                       minLength={1}
+                                       maxLength={50}
+                                       placeholder="Tittel"
+                                       aria-label="tittel"
+                                       aria-describedby="basic-addon1"
+                                       value={this.selectedArticle.tittel}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.tittel = event.target.value)}/>
                             </div>
-                            <input type="text" className="form-control" placeholder="Tittel" aria-label="tittel"
-                                   aria-describedby="basic-addon1" value={this.selectedArticle.tittel} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.tittel = event.target.value)}/>
-                        </div>
 
-                        <label htmlFor="basic-url">Bilde-url: </label>
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <label htmlFor="basic-url">Bilde-url: </label>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                </div>
+                                <input type="text"
+                                       className="form-control"
+                                       placeholder="Lim inn en bildeadresse her!"
+                                       aria-label="bildeurl"
+                                       aria-describedby="basic-addon4"
+                                       value={this.selectedArticle.bilde}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.bilde = event.target.value)}/>
                             </div>
-                            <input type="text" className="form-control" placeholder="Lim inn en bildeadresse her!" aria-label="bildeurl"
-                                   aria-describedby="basic-addon4"  value={this.selectedArticle.bilde} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.bilde = event.target.value)}/>
-                        </div>
 
-                        <label htmlFor="basic-url">Alt: </label>
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <label htmlFor="basic-url">Alt: </label>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                </div>
+                                <input type="text"
+                                       className="form-control"
+                                       placeholder="Dette er et bilde"
+                                       aria-label="alt"
+                                       aria-describedby="basic-addon2"
+                                       value={this.selectedArticle.alt}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.alt = event.target.value)}/>
                             </div>
-                            <input type="text" className="form-control" placeholder="Dette er et bilde" aria-label="alt"
-                                   aria-describedby="basic-addon2"  value={this.selectedArticle.alt} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.alt = event.target.value)}/>
-                        </div>
 
-                        <label htmlFor="basic-url">Forfatter: </label>
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <label htmlFor="basic-url">Forfatter: </label>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                </div>
+                                <input type="text"
+                                       className="form-control"
+                                       required
+                                       minLength={1}
+                                       maxLength={40}
+                                       placeholder="Ola Nordmann"
+                                       aria-label="forfatter"
+                                       aria-describedby="basic-addon3"
+                                       value={this.selectedArticle.forfatter}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.forfatter = event.target.value)}/>
                             </div>
-                            <input type="text" className="form-control" placeholder="Ola Nordmann" aria-label="forfatter"
-                                   aria-describedby="basic-addon3"  value={this.selectedArticle.forfatter} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.forfatter = event.target.value)}/>
-                        </div>
 
-                        <div className="form-group">
-                            <label htmlFor="kategori">Kategori: </label>
-                            <select className="form-control" id="kategori"
-                                    value={this.kategori} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.kategori = event.target.value)}>
-                                {this.kategorier.map(i =>(
-                                    <option key={i.id} value={i.id}>{i.navn}</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="form-check">
-                            <input type="checkbox" className="form-check-input" id="viktighet" onChange={this.handleViktighet}/>
-                            <label className="form-check-label" htmlFor="viktighet">Viktig</label>
-                        </div>
-
-                        <label htmlFor="basic-url">Tekst: </label>
-                        <div className="input-group">
-                            <div className="input-group-prepend">
+                            <div className="form-group">
+                                <label htmlFor="kategori">Kategori: </label>
+                                <select className="form-control"
+                                        id="kategori"
+                                        value={this.kategori}
+                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.kategori = event.target.value)}>
+                                        {this.kategorier.map(i =>(
+                                            <option key={i.id} value={i.id}>{i.navn}</option>
+                                        ))}
+                                </select>
                             </div>
-                            <textarea className="form-control" aria-label="tekst" rows="10" value={this.selectedArticle.tekst} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.tekst = event.target.value)}></textarea>
-                        </div>
+
+                            <div className="form-check">
+                                <input type="checkbox"
+                                       className="form-check-input"
+                                       id="viktighet"
+                                       onChange={this.handleViktighet}/>
+                                <label className="form-check-label" htmlFor="viktighet">Viktig</label>
+                            </div>
+
+                            <label htmlFor="basic-url">Tekst: </label>
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                </div>
+                                <textarea
+                                    className="form-control"
+                                    required
+                                    minLength={1}
+                                    aria-label="tekst"
+                                    rows="10"
+                                    value={this.selectedArticle.tekst}
+                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.tekst = event.target.value)}> </textarea>
+                            </div>
+                        </form>
 
                     </div>
                     <Button.Info onClick={this.post}> Oppdater </Button.Info>

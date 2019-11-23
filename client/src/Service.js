@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-const instance = axios.create({baseURL: 'http://localhost:8080'});
+const instance = axios.create({baseURL: 'http://10.22.152.12:8080'}); //bytt ut ip med localhost
 
 export class Artikkel {
     id: number;
@@ -41,8 +41,7 @@ export class Kommentar {
     nickname: string;
     tekst: string;
     artikkelid: number;
-    constructor(id: number, nickname: string, tekst: string, artikkelid: number){
-        this.id = id;
+    constructor(nickname: string, tekst: string, artikkelid: number){
         this.nickname = nickname;
         this.tekst = tekst;
         this.artikkelid = artikkelid;
@@ -50,8 +49,8 @@ export class Kommentar {
 }
 
 export class ArtikkelService {
-    getArtikkler(){
-        return instance.get<Artikkel[]>('/artikkler').then(response => response.data);
+    getArtikkler(limit: number){
+        return instance.get<Artikkel[]>('/artikkler/' + parseInt(limit)).then(response => response.data);
     }
     postArticle(article: Artikkel){
         return instance.post<Artikkel>('/artikkel', article).then(response => response.data);
@@ -62,6 +61,8 @@ export class ArtikkelService {
     }
     deleteArticle(id: number){
         console.log("Sletter artikkel");
+        this.deleteKommentarer(id)
+            .catch((error: Error) => console.error(error.message));
         return instance.delete<Artikkel>('/artikkel/' + id).then(response => response.data);
     }
     getCategories(){
@@ -72,18 +73,22 @@ export class ArtikkelService {
         return instance.put<Artikkel>('/artikkel/' + id, article).then(response => response.data);
     }
     getNyheter(){
-        return instance.get<Artikkel[]>('/artikkler/nyheter').then(response => response.data);
+        return instance.get<Artikkel[]>('/artikkl/nyheter').then(response => response.data);
     }
     getArticleBycat(id: number){
         return instance.get<Artikkel[]>('/artikkler/kategori/' + id).then(response => response.data);
     }
     getSiste(){
-        return instance.get<Artikkel[]>('/artikkler/siste').then(response => response.data);
+        return instance.get<Artikkel[]>('/artikkler/scroll/siste').then(response => response.data);
     }
     getKommentarer(id: number){
         return instance.get<Kommentar[]>('/kommentarer/' + id).then(response => response.data);
     }
     postKommentar(kommentar: Kommentar){
         return instance.post<Kommentar>('/kommentarer', kommentar).then(response => response.data)
+    }
+    deleteKommentarer(artikkelid: number){
+        console.log("Sletter kommentarer");
+        return instance.delete<Kommentar>('/kommentarer/' + artikkelid).then(response => response.data);
     }
 }

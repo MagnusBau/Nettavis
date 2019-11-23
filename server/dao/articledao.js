@@ -4,8 +4,8 @@
 const Dao = require("./dao.js");
 
 module.exports = class ArticleDao extends Dao {
-    getAll(callback: () => void) {
-        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, DATE_FORMAT(`tidspunkt`, '%Y-%m-%d %H:%i') AS `tidspunkt` from artikkel where viktighet = 1 order by tidspunkt desc", [], callback);
+    getAll(limit: number, callback: () => void) {
+        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, DATE_FORMAT(`tidspunkt`, '%Y-%m-%d %H:%i') AS `tidspunkt` from artikkel where viktighet = 1 order by tidspunkt desc limit ?", [limit], callback);
     }
 
     getNyheter(callback: () => void) {
@@ -74,5 +74,13 @@ module.exports = class ArticleDao extends Dao {
             val,
             callback
         );
+    }
+
+    deleteComments(artikkelid: number, callback: () => void) {
+        super.query(
+            "delete from kommentar where artikkelid = ?",
+            artikkelid,
+            callback
+        )
     }
 };
