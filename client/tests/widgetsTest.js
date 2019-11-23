@@ -1,43 +1,33 @@
 // @flow
 
 import * as React from 'react';
-import { Component } from 'react-simplified';
-import { Alert } from '../src/widgets.js';
 import { shallow, mount } from 'enzyme';
+import {Comment} from "../src/widgets";
 
-describe('Alert tests', () => {
-  const wrapper = shallow(<Alert />);
+describe('Comment test', () => {
+
 
   it('initially', () => {
-    let instance = Alert.instance();
+    let instance = Comment.instance();
     expect(typeof instance).toEqual('object');
-    if (instance) expect(instance.alerts).toEqual([]);
-
-    expect(wrapper.find('button.close')).toHaveLength(0);
+    if (instance) expect(instance.props.tekst).toMatch("test");
+    if (instance) expect(instance.props.nickname).toMatch("test");
   });
 
-  it('after danger', done => {
-    Alert.danger('test');
+  it('after load', done => {
+    Comment("test", "test");
 
-    // Wait for the Alert component to finish drawing
     setTimeout(() => {
-      let instance = Alert.instance();
+      let instance = Comment.instance();
       expect(typeof instance).toEqual('object');
-      if (instance) expect(instance.alerts).toEqual([{ id: 0, text: 'test', type: 'danger' }]);
-
-      expect(wrapper.find('button.close')).toHaveLength(1);
+      if (instance) expect(instance.props.tekst).toMatch("test");
+      if (instance) expect(instance.props.nickname).toMatch("test");
 
       done();
     });
   });
+});
 
-  it('after clicking close button', () => {
-    wrapper.find('button.close').simulate('click');
+describe('Article test', () => {
 
-    let instance = Alert.instance();
-    expect(typeof instance).toEqual('object');
-    if (instance) expect(instance.alerts).toEqual([]);
-
-    expect(wrapper.find('button.close')).toHaveLength(0);
-  });
 });

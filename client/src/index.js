@@ -15,6 +15,7 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
 let artikkelService = new ArtikkelService();
 
 class Menu extends Component {
+    kategorier: Kategori = [];
     render() {
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark ">
@@ -26,14 +27,20 @@ class Menu extends Component {
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
                         <a className="nav-item nav-link" href="#nyheter">Nyheter</a>
-                        <a className="nav-item nav-link" href="#sport">Sport</a>
-                        <a className="nav-item nav-link" href="#kultur">Kultur</a>
-                        <a className="nav-item nav-link" href="#teknologi">Teknologi</a>
+                        {this.kategorier.map(i => (
+                            <a className="nav-item nav-link" href={"#" + i.id}>{i.navn}</a>
+                        ))}
                         <a className="nav-item nav-link" href="#lastopp">Last opp</a>
                     </div>
                 </div>
             </nav>
         );
+    }
+    mounted() {
+        artikkelService
+            .getCategories()
+            .then(kategorier => (this.kategorier = kategorier))
+            .catch((error: Error) => console.error(error.message));
     }
 }
 
@@ -52,20 +59,33 @@ class Footer extends Component {
     }
 }
 
+class Scroll extends Component {
+    siste: Artikkel[] = [];
+    render() {
+        return(
+            <marquee behavior="scroll" direction="left">
+                {this.siste.map(i => (
+                    <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
+                        {i.tittel}
+                    </NavLink>
+                ))}
+            </marquee>
+        );
+    }
+    mounted(){
+        artikkelService
+            .getSiste()
+            .then(artikler => (this.siste = artikler))
+            .catch((error: Error) => console.error(error.message))
+    }
+}
+
 class Home extends Component {
     artikler: Artikkel[] = [];
-    siste: Artikkel[] = [];
     antall: number = 4;
     render() {
         return (
             <div>
-                <marquee behavior="scroll" direction="left">
-                    {this.siste.map(i => (
-                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
-                            {i.tittel}
-                        </NavLink>
-                    ))}
-                </marquee>
             <div className="container">
                 <div className="row justify-content-center">
                 {this.artikler.map(i => (
@@ -94,27 +114,15 @@ class Home extends Component {
             .getArtikkler(this.antall)
             .then(artikler => (this.artikler = artikler))
             .catch((error: Error) => console.error(error.message));
-        artikkelService
-            .getSiste()
-            .then(artikler => (this.siste = artikler))
-            .catch((error: Error) => console.error(error.message))
     }
 
 }
 
 class Nyheter extends Component {
     artikler: Artikkel[] = [];
-    siste: Artikkel[] = [];
     render() {
         return (
             <div>
-                <marquee behavior="scroll" direction="left">
-                    {this.siste.map(i => (
-                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
-                            {i.tittel}
-                        </NavLink>
-                    ))}
-                </marquee>
             <div className="container">
                 <div className="row justify-content-center">
                     {this.artikler.map(i => (
@@ -126,6 +134,9 @@ class Nyheter extends Component {
                     ))}
                 </div>
             </div>
+                <div className="row justify-content-center" style={{fontSize: 30, color: 'white', marginBottom: '10px'}}>
+                    <Button.Info onClick={this.loadMore}>Last inn flere artikler</Button.Info>
+                </div>
             </div>
         );
     }
@@ -135,135 +146,39 @@ class Nyheter extends Component {
             .getNyheter()
             .then(artikler => (this.artikler = artikler))
             .catch((error: Error) => console.error(error.message));
-        artikkelService
-            .getSiste()
-            .then(artikler => (this.siste = artikler))
-            .catch((error: Error) => console.error(error.message))
     }
 
 }
 
-class Sport extends Component {
+class Kategorier extends Component<{match : {params: {id: number}}}>{
     artikler: Artikkel[] = [];
-    siste: Artikkel[] = [];
     render() {
         return (
             <div>
-                <marquee behavior="scroll" direction="left">
-                    {this.siste.map(i => (
-                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
-                            {i.tittel}
-                        </NavLink>
-                    ))}
-                </marquee>
-            <div className="container">
-                <div className="row justify-content-center">
-                    {this.artikler.map(i => (
-                        <NavLink exact to={'/article/' + i.id} className="custom-card" key={i.id}>
-                            <Article title={i.tittel} image={i.bilde} alt={i.alt} id={i.id}>
+                <div className="container">
+                    <div className="row justify-content-center">
+                        {this.artikler.map(i => (
+                            <NavLink exact to={'/article/' + i.id} className="custom-card" key={i.id}>
+                                <Article title={i.tittel} image={i.bilde} alt={i.alt} id={i.id}>
 
-                            </Article>
-                        </NavLink>
-                    ))}
+                                </Article>
+                            </NavLink>
+                        ))}
+                    </div>
                 </div>
-            </div>
+                <div className="row justify-content-center" style={{fontSize: 30, color: 'white', marginBottom: '10px'}}>
+                    <Button.Info onClick={this.loadMore}>Last inn flere artikler</Button.Info>
+                </div>
             </div>
         );
     }
 
     mounted() {
         artikkelService
-            .getArticleBycat(2)
+            .getArticleBycat(this.props.match.params.id)
             .then(artikler => (this.artikler = artikler))
             .catch((error: Error) => console.error(error.message));
-        artikkelService
-            .getSiste()
-            .then(artikler => (this.siste = artikler))
-            .catch((error: Error) => console.error(error.message))
     }
-
-}
-
-class Teknologi extends Component {
-    artikler: Artikkel[] = [];
-    siste: Artikkel[] = [];
-    render() {
-        return (
-            <div>
-                <marquee behavior="scroll" direction="left">
-                    {this.siste.map(i => (
-                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
-                            {i.tittel}
-                        </NavLink>
-                    ))}
-                </marquee>
-            <div className="container">
-                <div className="row justify-content-center">
-                    {this.artikler.map(i => (
-                        <NavLink exact to={'/article/' + i.id} className="custom-card" key={i.id}>
-                            <Article title={i.tittel} image={i.bilde} alt={i.alt} id={i.id}>
-
-                            </Article>
-                        </NavLink>
-                    ))}
-                </div>
-            </div>
-            </div>
-        );
-    }
-
-    mounted() {
-        artikkelService
-            .getArticleBycat(3)
-            .then(artikler => (this.artikler = artikler))
-            .catch((error: Error) => console.error(error.message));
-        artikkelService
-            .getSiste()
-            .then(artikler => (this.siste = artikler))
-            .catch((error: Error) => console.error(error.message))
-    }
-
-}
-
-class Kultur extends Component {
-    artikler: Artikkel[] = [];
-    siste: Artikkel[] = [];
-    render() {
-        return (
-            <div>
-                <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-                    {this.siste.map(i => (
-                        <NavLink exact to={'/article/' + i.id} key={i.id} className="scroll" style={{paddingRight: 100}}>
-                            {i.tittel}
-                        </NavLink>
-                    ))}
-                </marquee>
-            <div className="container">
-                <div className="row justify-content-center">
-                    {this.artikler.map(i => (
-                        <NavLink exact to={'/article/' + i.id} className="custom-card" key={i.id}>
-                            <Article title={i.tittel} image={i.bilde} alt={i.alt} id={i.id}>
-
-                            </Article>
-                        </NavLink>
-                    ))}
-                </div>
-            </div>
-            </div>
-        );
-    }
-
-    mounted() {
-        artikkelService
-            .getArticleBycat(4)
-            .then(artikler => (this.artikler = artikler))
-            .catch((error: Error) => console.error(error.message));
-        artikkelService
-            .getSiste()
-            .then(artikler => (this.siste = artikler))
-            .catch((error: Error) => console.error(error.message))
-    }
-
 }
 
 class article extends Component<{match : {params: {id: number}}}>{
@@ -356,7 +271,7 @@ class LastOpp extends Component {
                                        className="form-control"
                                        required
                                        minLength={1}
-                                       maxLength={40}
+                                       maxLength={80}
                                        placeholder="Tittel"
                                        aria-label="tittel"
                                        aria-describedby="basic-addon1"
@@ -456,9 +371,6 @@ class LastOpp extends Component {
             this.viktighet = '2';
         }
     }
-    handleKategori(event){
-        this.kategori = event.target.value;
-    }
 
     post(){
         if(!this.form || !this.form.checkValidity()){
@@ -469,7 +381,7 @@ class LastOpp extends Component {
         let tempArticle = new Artikkel(0, this.tittel, this.tekst, this.bilde, this.forfatter, this.viktighet, this.kategori, this.alt, '0');
         artikkelService.postArticle(tempArticle)
             .then((response) => {
-                history.push('/nyheter');
+                history.push('/');
             }, console.log("Artikkel lastet opp"))
             .catch((error: Error) => console.error(error.message))
     }
@@ -488,6 +400,7 @@ class edit extends Component<{match : {params: {id: number}}}>{
     kategori = 1;
 
     form = null;
+    melding: string = "";
     render() {
         return(
             <div className="row justify-content-center">
@@ -501,9 +414,9 @@ class edit extends Component<{match : {params: {id: number}}}>{
                                 </div>
                                 <input type="text"
                                        className="form-control"
-                                       required 
+                                       required
                                        minLength={1}
-                                       maxLength={50}
+                                       maxLength={80}
                                        placeholder="Tittel"
                                        aria-label="tittel"
                                        aria-describedby="basic-addon1"
@@ -590,6 +503,7 @@ class edit extends Component<{match : {params: {id: number}}}>{
 
                     </div>
                     <Button.Info onClick={this.post}> Oppdater </Button.Info>
+                    <p style={{color: "red"}}>{this.melding}</p>
                 </div>
             </div>
         );
@@ -605,6 +519,11 @@ class edit extends Component<{match : {params: {id: number}}}>{
 
 
     post(){
+        if(!this.form || !this.form.checkValidity()){
+            this.melding = "Fyll ut de røde feltene";
+            this.mounted();
+            return;
+        }
         this.kategori = 1;
         let tempArticle = new Artikkel(this.selectedArticle.id, this.selectedArticle.tittel, this.selectedArticle.tekst, this.selectedArticle.bilde, this.selectedArticle.forfatter, this.selectedArticle.viktighet, this.selectedArticle.kategoriid, this.selectedArticle.alt, '0');
         artikkelService.updateArticle(this.selectedArticle.id, tempArticle)
@@ -632,14 +551,13 @@ if (root)
             <div>
                 <Alert />
                 <Menu />
+                <Scroll />
                 <Route exact path="/" component={Home} />
                 <Route exact path = "/lastopp" component={LastOpp} />
                 <Route exact path = "/article/:id" component={article}/>
                 <Route exact path = "/edit/:id" component={edit}/>
                 <Route exact path="/nyheter" component={Nyheter} />
-                <Route exact path="/sport" component={Sport} />
-                <Route exact path="/teknologi" component={Teknologi} />
-                <Route exact path="/kultur" component={Kultur} />
+                <Route exact path="/:id" component={Kategorier} />
                 <Footer/>
             </div>
         </HashRouter>,
