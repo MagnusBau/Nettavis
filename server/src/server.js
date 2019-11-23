@@ -74,9 +74,9 @@ app.get("/artikkler/scroll/siste", (req, res) => {
     });
 });
 
-app.get("/artikkler/kategori/:id", (req, res) => {
+app.get("/artikkler/kategori/:id/:limit", (req, res) => {
     console.log("/artikler/kategori: fikk request fra klient");
-    articleDao.getArticleByCat(req.params.id,(status, data) => {
+    articleDao.getArticleByCat(req.params.id, parseInt(req.params.limit),(status, data) => {
         res.status(status);
         res.json(data);
     });

@@ -25,10 +25,10 @@ class Menu extends Component {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div className="navbar-nav">
+                    <div className="navbar-nav mr-auto">
                         <a className="nav-item nav-link" href="#nyheter">Nyheter</a>
                         {this.kategorier.map(i => (
-                            <a className="nav-item nav-link" href={"#" + i.id}>{i.navn}</a>
+                            <a className="nav-item nav-link" key={i.id} href={"#kategori/" + i.id}>{i.navn}</a>
                         ))}
                         <a className="nav-item nav-link" href="#lastopp">Last opp</a>
                     </div>
@@ -59,7 +59,7 @@ class Footer extends Component {
     }
 }
 
-class Scroll extends Component {
+export class Scroll extends Component {
     siste: Artikkel[] = [];
     render() {
         return(
@@ -120,6 +120,7 @@ class Home extends Component {
 
 class Nyheter extends Component {
     artikler: Artikkel[] = [];
+    antall: number = 4;
     render() {
         return (
             <div>
@@ -141,6 +142,10 @@ class Nyheter extends Component {
         );
     }
 
+    loadMore(){
+        this.antall += 2;
+        this.mounted();
+    }
     mounted() {
         artikkelService
             .getNyheter()
@@ -150,8 +155,9 @@ class Nyheter extends Component {
 
 }
 
-class Kategorier extends Component<{match : {params: {id: number}}}>{
+export class Kategorier extends Component<{match : {params: {id: number}}}>{
     artikler: Artikkel[] = [];
+    antall: number = 4;
     render() {
         return (
             <div>
@@ -173,16 +179,24 @@ class Kategorier extends Component<{match : {params: {id: number}}}>{
         );
     }
 
-    mounted() {
+    loadMore(){
+        this.antall += 2;
         artikkelService
-            .getArticleBycat(this.props.match.params.id)
+            .getArticleBycat(this.props.match.params.id, this.antall)
+            .then(artikler => (this.artikler = artikler))
+            .catch((error: Error) => console.error(error.message));
+    }
+    mounted() {
+        this.antall = 4;
+        artikkelService
+            .getArticleBycat(this.props.match.params.id, this.antall)
             .then(artikler => (this.artikler = artikler))
             .catch((error: Error) => console.error(error.message));
     }
 }
 
 class article extends Component<{match : {params: {id: number}}}>{
-    selectedArticle: Artikkel = new Artikkel("init", "init", "init", "init", "init", "init", "init");
+    selectedArticle: Artikkel = new Artikkel("", "", "", "", "", "", "");
     comments: Kommentar[] = [];
 
     nickname: string = "Curious Betsy";
@@ -559,7 +573,7 @@ if (root)
                 <Route exact path = "/article/:id" component={article}/>
                 <Route exact path = "/edit/:id" component={edit}/>
                 <Route exact path="/nyheter" component={Nyheter} />
-                <Route exact path="/:id" component={Kategorier} />
+                <Route exact path="/kategori/:id" component={Kategorier} />
                 <Footer/>
             </div>
         </HashRouter>,

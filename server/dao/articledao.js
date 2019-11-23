@@ -15,9 +15,9 @@ module.exports = class ArticleDao extends Dao {
         super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where tidspunkt >= DATE_SUB(NOW(), INTERVAL 6 hour ) and viktighet = 1 order by tidspunkt desc", [], callback);
     }
 
-    getArticleByCat(id: number, callback: () => void) {
-        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where kategoriid = ? order by tidspunkt desc",
-            [id],
+    getArticleByCat(id: number, limit: number, callback: () => void) {
+        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where kategoriid = ? order by tidspunkt desc limit ?",
+            [id, limit],
             callback);
     }
 

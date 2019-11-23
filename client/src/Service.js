@@ -73,8 +73,8 @@ export class ArtikkelService {
     getNyheter(){
         return instance.get<Artikkel[]>('/artikkl/nyheter').then(response => response.data);
     }
-    getArticleBycat(id: number){
-        return instance.get<Artikkel[]>('/artikkler/kategori/' + id).then(response => response.data);
+    getArticleBycat(id: number, limit: number){
+        return instance.get<Artikkel[]>('/artikkler/kategori/' + id + '/' + limit).then(response => response.data);
     }
     getSiste(){
         return instance.get<Artikkel[]>('/artikkler/scroll/siste').then(response => response.data);
