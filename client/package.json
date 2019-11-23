@@ -5,7 +5,7 @@
     "postinstall": "node ./scripts/enable_babelrc.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "flow": "flow"
   },
   "dependencies": {
@@ -31,7 +31,15 @@
   "devDependencies": {
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.6.3",
     "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.6.3",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.6",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "jest": "^24.9.0",
     "flow-bin": "^0.112.0"
   },
   "jest": {
