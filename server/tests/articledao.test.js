@@ -154,58 +154,20 @@ test("update one article from db", done => {
     }
 
     articleDao.updateOne(
-        { tittel: "test", tekst: "hahaha", bilde: "test.png", forfatter: "meg", viktighet: 1, kategoriid: 2, alt: "bra", id: 1},
+        1, { tittel: "test", tekst: "hahaha", bilde: "test.png", forfatter: "meg", viktighet: 1, kategoriid: 2, alt: "bra", id: 1},
         callback
     );
 });
-// test("get one person from db", done => {
-//     function callback(status, data) {
-//         console.log(
-//             "Test callback: status=" + status + ", data=" + JSON.stringify(data)
-//         );
-//         expect(data.length).toBe(1);
-//         expect(data[0].navn).toBe("Hei Sveisen");
-//         done();
-//     }
-//
-//     articleDao.getOne(1, callback);
-// });
-//
-// test("get unknown person from db", done => {
-//     function callback(status, data) {
-//         console.log(
-//             "Test callback: status=" + status + ", data=" + JSON.stringify(data)
-//         );
-//         expect(data.length).toBe(0);
-//         done();
-//     }
-//
-//     articleDao.getOne(0, callback);
-// });
-//
-// test("add person to db", done => {
-//     function callback(status, data) {
-//         console.log(
-//             "Test callback: status=" + status + ", data=" + JSON.stringify(data)
-//         );
-//         expect(data.affectedRows).toBeGreaterThanOrEqual(1);
-//         done();
-//     }
-//
-//     articleDao.createOne(
-//         { navn: "Nils Nilsen", alder: 34, adresse: "Gata 3" },
-//         callback
-//     );
-// });
-//
-// test("get all persons from db", done => {
-//     function callback(status, data) {
-//         console.log(
-//             "Test callback: status=" + status + ", data.length=" + data.length
-//         );
-//         expect(data.length).toBeGreaterThanOrEqual(2);
-//         done();
-//     }
-//
-//     articleDao.getAll(callback);
-// });
+
+test("get articles with searchword from db", done => {
+    function callback(status, data) {
+        console.log(
+            "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+        );
+        expect(data.length).toBe(1);
+        expect(data[0].tittel).toBe('Testartikkel2');
+        done();
+    }
+
+    articleDao.getSearch("Testartikkel2", 4, callback);
+});
