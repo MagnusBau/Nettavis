@@ -58,9 +58,9 @@ app.get("/artikkler/:limit", (req: express$Request, res: express$Response) => {
     });
 });
 
-app.get("/artikkl/nyheter", (req: express$Request, res: express$Response) => {
+app.get("/artikkl/nyheter/:limit", (req: express$Request, res: express$Response) => {
     console.log("/artikler/nyheter: fikk request fra klient");
-    articleDao.getNyheter((status, data) => {
+    articleDao.getNyheter(parseInt(req.params.limit),(status, data) => {
         res.status(status);
         res.json(data);
     });

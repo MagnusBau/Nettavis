@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
-import { Alert, Button, Article, SelectedArticle, Comment} from './widgets';
+import { Button, Article, SelectedArticle, Comment} from './widgets';
 import {ArtikkelService, Artikkel, Kategori, Kommentar} from './Service'
 
 import { createHashHistory } from 'history';
@@ -19,7 +19,7 @@ class Menu extends Component {
     render() {
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark ">
-                <a className="navbar-brand" href="/">Nettavis</a>
+                <a className="navbar-brand" href="/" style={{fontSize: 30}}>Varden</a>
                 <div className="navbar" id="navbarNavAltMarkup">
                     <div className="navbar-nav ml-auto">
                         <a className="nav-item nav-link" href="#nyheter">Nyheter</a>
@@ -46,6 +46,9 @@ class Footer extends Component {
         return (
             <footer className="page-footer font-small special-color-dark pt-4" style={{backgroundColor: '#353942'}}>
                 <div className="container">
+                    <div className="row justify-content-center" style={{color: 'white', fontSize: 20}}>
+                        Hold deg hydrert
+                    </div>
                 </div>
                 <div className="footer-copyright text-center py-3" style={{color: 'white'}}>Laget av
                     Magnus Baugerud
@@ -205,7 +208,7 @@ export class Nyheter extends Component {
     }
     mounted() {
         artikkelService
-            .getNyheter()
+            .getNyheter(this.antall)
             .then(artikler => (this.artikler = artikler))
             .catch((error: Error) => console.error(error.message));
     }
@@ -327,6 +330,8 @@ class LastOpp extends Component {
 
     form = null;
     melding: string = "";
+    knapp: string = "Legg til på forsiden";
+    viktig: boolean = false;
     render() {
         return(
             <div className="row justify-content-center">
@@ -404,12 +409,8 @@ class LastOpp extends Component {
                                 </select>
                             </div>
 
-                            <div className="form-check">
-                                <input type="checkbox"
-                                       className="form-check-input"
-                                       id="viktighet"
-                                       onChange={this.handleViktighet}/>
-                                <label className="form-check-label" htmlFor="viktighet">Viktig</label>
+                            <div>
+                                <button type="button" className="btn btn-info" onClick={this.handleViktighet}>{this.knapp}</button>
                             </div>
 
                             <label htmlFor="basic-url">Tekst: </label>
@@ -434,12 +435,15 @@ class LastOpp extends Component {
             </div>
         );
     }
-    handleViktighet(event){
-        if (event.target.checked){
-            this.viktighet = '1';
-        }
-        else {
-            this.viktighet = '2';
+    handleViktighet(){
+        if(this.viktig){
+            this.knapp = "Legg på forsiden";
+            this.viktig = false;
+            this.viktighet = 2;
+        }else if(!this.viktig){
+            this.knapp = "Ikke legg på forsiden";
+            this.viktig = true;
+            this.viktighet = 1;
         }
     }
 
@@ -469,10 +473,11 @@ class LastOpp extends Component {
 class edit extends Component<{match : {params: {id: number}}}>{
     selectedArticle: Artikkel =  new Artikkel("init", "init", "init", "init", "init", "init", "");
     kategorier: Kategori[] = [];
-    kategori = 1;
 
     form = null;
     melding: string = "";
+    knapp: string = "Legg til på forsiden";
+    viktig: boolean = false;
     render() {
         return(
             <div className="row justify-content-center">
@@ -542,20 +547,16 @@ class edit extends Component<{match : {params: {id: number}}}>{
                                 <label htmlFor="kategori">Kategori: </label>
                                 <select className="form-control"
                                         id="kategori"
-                                        value={this.kategori}
-                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.kategori = event.target.value)}>
+                                        value={this.selectedArticle.kategoriid}
+                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.selectedArticle.kategoriid = event.target.value)}>
                                         {this.kategorier.map(i =>(
                                             <option key={i.id} value={i.id}>{i.navn}</option>
                                         ))}
                                 </select>
                             </div>
 
-                            <div className="form-check">
-                                <input type="checkbox"
-                                       className="form-check-input"
-                                       id="viktighet"
-                                       onChange={this.handleViktighet}/>
-                                <label className="form-check-label" htmlFor="viktighet">Viktig</label>
+                            <div>
+                                <button type="button" className="btn btn-info" onClick={this.handleViktighet}>{this.knapp}</button>
                             </div>
 
                             <label htmlFor="basic-url">Tekst: </label>
@@ -580,12 +581,15 @@ class edit extends Component<{match : {params: {id: number}}}>{
             </div>
         );
     }
-    handleViktighet(event){
-        if (event.target.checked){
-            this.selectedArticle.viktighet = '1';
-        }
-        else {
-            this.selectedArticle.viktighet = '2';
+    handleViktighet(){
+        if(this.viktig){
+            this.knapp = "Legg på forsiden";
+            this.viktig = false;
+            this.selectedArticle.viktighet = 2;
+        }else if(!this.viktig){
+            this.knapp = "Ikke legg på forsiden";
+            this.viktig = true;
+            this.selectedArticle.viktighet = 1;
         }
     }
 
@@ -597,7 +601,6 @@ class edit extends Component<{match : {params: {id: number}}}>{
             return;
         }
         else{
-            this.kategori = 1;
             let tempArticle = new Artikkel(this.selectedArticle.tittel, this.selectedArticle.tekst, this.selectedArticle.bilde, this.selectedArticle.forfatter, this.selectedArticle.viktighet, this.selectedArticle.kategoriid, this.selectedArticle.alt);
             artikkelService.updateArticle(this.selectedArticle.id, tempArticle)
                 .then((response) => {
@@ -610,7 +613,13 @@ class edit extends Component<{match : {params: {id: number}}}>{
     mounted() {
         artikkelService
             .getArticle(this.props.match.params.id)
-            .then(article => (this.selectedArticle = article[0]))
+            .then(article => {
+                this.selectedArticle = article[0];
+                if(parseInt(article[0].viktighet) === 1){
+                    this.viktig = true;
+                    this.knapp = "Ikke legg på forsiden";
+                }
+            })
             .catch((error: Error) => console.error(error.message));
         artikkelService
             .getCategories()
@@ -624,7 +633,6 @@ if (root)
     ReactDOM.render(
         <HashRouter>
             <div>
-                <Alert />
                 <Menu />
                 <Scroll />
                 <Route exact path="/" component={Home} />

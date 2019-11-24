@@ -8,8 +8,8 @@ module.exports = class ArticleDao extends Dao {
         super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, DATE_FORMAT(`tidspunkt`, '%Y-%m-%d %H:%i') AS `tidspunkt` from artikkel where viktighet = 1 order by tidspunkt desc limit ?", [limit], callback);
     }
 
-    getNyheter(callback: () => void) {
-        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where tidspunkt >= DATE_SUB(NOW(), INTERVAL 1 DAY) order by tidspunkt desc", [], callback);
+    getNyheter(limit: number, callback: () => void) {
+        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where tidspunkt >= DATE_SUB(NOW(), INTERVAL 1 DAY) order by tidspunkt desc limit ?", [limit], callback);
     }
     getSiste(callback: () => void) {
         super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where tidspunkt >= DATE_SUB(NOW(), INTERVAL 6 hour ) and viktighet = 1 order by tidspunkt desc", [], callback);

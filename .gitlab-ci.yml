@@ -18,5 +18,5 @@ before_script:
 run_tests:
   stage: test
   script:
-    - npm test && npm run flow
-    - cd ../client && npm install && npm run flow
+    - npm test && npm run flow check
+    - cd ../client && npm install && npm run flow check

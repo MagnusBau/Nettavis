@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-const instance = axios.create({baseURL: 'http://localhost:8080'}); //bytt ut ip med localhost
+const instance = axios.create({baseURL: 'http://10.22.152.12:8080'}); //bytt ut ip med localhost
 
 export class Artikkel {
     id: number;
@@ -70,8 +70,8 @@ export class ArtikkelService {
         console.log("Oppdaterer artikkel");
         return instance.put<Artikkel, void>('/artikkel/' + id, article).then(response => response.data);
     }
-    getNyheter(){
-        return instance.get<Artikkel[]>('/artikkl/nyheter').then(response => response.data);
+    getNyheter(limit: number){
+        return instance.get<Artikkel[]>('/artikkl/nyheter/' + limit).then(response => response.data);
     }
     getArticleBycat(id: number, limit: number){
         return instance.get<Artikkel[]>('/artikkler/kategori/' + id + '/' + limit).then(response => response.data);

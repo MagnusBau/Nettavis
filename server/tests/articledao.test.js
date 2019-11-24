@@ -63,7 +63,7 @@ test("get Nyheter from db", done => {
         done();
     }
 
-    articleDao.getNyheter(callback);
+    articleDao.getNyheter(4, callback);
 });
 
 test("get Siste from db", done => {
