@@ -51,11 +51,11 @@ export class ArtikkelService {
         return instance.get<Artikkel[]>('/artikkler/' + parseInt(limit)).then(response => response.data);
     }
     postArticle(article: Artikkel){
-        return instance.post<Artikkel>('/artikkel', article).then(response => response.data);
+        return instance.post<Artikkel, void>('/artikkel', article).then(response => response.data);
     }
     getArticle(id: number){
         console.log("Henter artikkel");
-        return instance.get<Artikkel>('/artikkel/' + id).then(response => response.data);
+        return instance.get<any>('/artikkel/' + id).then(response => response.data);
     }
     deleteArticle(id: number){
         console.log("Sletter artikkel");
@@ -68,7 +68,7 @@ export class ArtikkelService {
     }
     updateArticle(id: number, article: Artikkel){
         console.log("Oppdaterer artikkel");
-        return instance.put<Artikkel>('/artikkel/' + id, article).then(response => response.data);
+        return instance.put<Artikkel, void>('/artikkel/' + id, article).then(response => response.data);
     }
     getNyheter(){
         return instance.get<Artikkel[]>('/artikkl/nyheter').then(response => response.data);
@@ -83,7 +83,7 @@ export class ArtikkelService {
         return instance.get<Kommentar[]>('/kommentarer/' + id).then(response => response.data);
     }
     postKommentar(kommentar: Kommentar){
-        return instance.post<Kommentar>('/kommentarer', kommentar).then(response => response.data)
+        return instance.post<Kommentar, void>('/kommentarer', kommentar).then(response => response.data)
     }
     deleteKommentarer(artikkelid: number){
         console.log("Sletter kommentarer");

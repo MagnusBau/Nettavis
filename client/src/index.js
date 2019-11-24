@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
-import { Alert, Card, CardWrap, NavBar, Button, Row, Column, Article, SelectedArticle, Comment} from './widgets';
+import { Alert, Button, Article, SelectedArticle, Comment} from './widgets';
 import {ArtikkelService, Artikkel, Kategori, Kommentar} from './Service'
 
 import { createHashHistory } from 'history';
@@ -15,11 +15,11 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
 let artikkelService = new ArtikkelService();
 
 class Menu extends Component {
-    kategorier: Kategori = [];
+    kategorier: Kategori[] = [];
     render() {
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark ">
-                <a className="navbar-brand" href="#">Nettavis</a>
+                <a className="navbar-brand" href="/">Nettavis</a>
                 <div className="navbar" id="navbarNavAltMarkup">
                     <div className="navbar-nav ml-auto">
                         <a className="nav-item nav-link" href="#nyheter">Nyheter</a>
@@ -175,7 +175,7 @@ class Home extends Component {
 
 }
 
-class Nyheter extends Component {
+export class Nyheter extends Component {
     artikler: Artikkel[] = [];
     antall: number = 4;
     render() {

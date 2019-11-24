@@ -8,8 +8,7 @@ import { createHashHistory } from 'history';
 //$FlowFixMe
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
-import {ArtikkelService, Artikkel, Kategori} from './Service'
-import {ImageProps} from "react-bootstrap";
+import {ArtikkelService} from './Service'
 
 const history = createHashHistory();
 
@@ -151,7 +150,7 @@ export class SelectedArticle extends Component<{title: React.Node, children?: Re
     return(
         <div className="row justify-content-center">
         <div className="card mb-4 border-0" style={{width: '50%'}}>
-          <img src={this.props.image} onError={this.addDefault} className="card-img-top" title={this.props.alt}/>
+          <img src={this.props.image} onError={this.addDefault} className="card-img-top" title={this.props.alt} alt={this.props.alt}/>
           <div id={"card"} className="card-img-overlay"></div>
           <div className="card-body">
             <h3 className="card-title">{this.props.title}</h3>
