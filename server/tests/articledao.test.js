@@ -51,7 +51,7 @@ test("get all articles from db", done => {
         done();
     }
 
-    articleDao.getAll(callback);
+    articleDao.getAll(4, callback);
 });
 
 test("get Nyheter from db", done => {
@@ -88,7 +88,7 @@ test("get Star Wars from db", done => {
         done();
     }
 
-    articleDao.getArticleByCat(1, callback);
+    articleDao.getArticleByCat(1, 4, callback);
 });
 
 test("get Kategorier from db", done => {
