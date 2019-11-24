@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-const instance = axios.create({baseURL: 'http://10.22.152.12:8080'}); //bytt ut ip med localhost
+const instance = axios.create({baseURL: 'http://localhost:8080'}); //bytt ut ip med localhost
 
 export class Artikkel {
     id: number;
