@@ -200,8 +200,9 @@ export class SelectedArticle extends Component<{title: React.Node, children?: Re
     artikkelService
         .deleteArticle(parseInt(this.props.id))
         .then((response) => {
-          history.push("/");
+          window.location.reload()
         })
+        .then(history.push("/"))
         .catch((error: Error) => console.error(error.message));
   }
 
