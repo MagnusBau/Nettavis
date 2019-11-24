@@ -26,7 +26,7 @@ var pool = mysql.createPool({
 
 let articleDao = new ArticleDao(pool);
 
-app.post("/artikkel", (req, res) => {
+app.post("/artikkel", (req: express$Request, res: express$Response) => {
     console.log("Fikk POST-request fra klienten");
     articleDao.createOne(req.body, (status, data) => {
         res.status(status);
@@ -34,7 +34,7 @@ app.post("/artikkel", (req, res) => {
     });
 });
 
-app.post("/kommentarer", (req, res) => {
+app.post("/kommentarer", (req: express$Request, res: express$Response) => {
     console.log("Fikk POST-request fra klienten");
     articleDao.postComment(req.body, (status, data) => {
         res.status(status);
@@ -42,7 +42,7 @@ app.post("/kommentarer", (req, res) => {
     });
 });
 
-app.put("/artikkel/:id", (req, res) => {
+app.put("/artikkel/:id", (req: express$Request, res: express$Response) => {
     console.log("Fikk UPDATE-request fra klienten");
     articleDao.updateOne(parseInt(req.params.id), req.body, (status, data) => {
         res.status(status);
@@ -50,7 +50,7 @@ app.put("/artikkel/:id", (req, res) => {
     });
 });
 
-app.get("/artikkler/:limit", (req, res) => {
+app.get("/artikkler/:limit", (req: express$Request, res: express$Response) => {
     console.log("/artikler: fikk request fra klient");
     articleDao.getAll(parseInt(req.params.limit), (status, data) => {
         res.status(status);
@@ -58,7 +58,7 @@ app.get("/artikkler/:limit", (req, res) => {
     });
 });
 
-app.get("/artikkl/nyheter", (req, res) => {
+app.get("/artikkl/nyheter", (req: express$Request, res: express$Response) => {
     console.log("/artikler/nyheter: fikk request fra klient");
     articleDao.getNyheter((status, data) => {
         res.status(status);
@@ -66,7 +66,7 @@ app.get("/artikkl/nyheter", (req, res) => {
     });
 });
 
-app.get("/artikkler/scroll/siste", (req, res) => {
+app.get("/artikkler/scroll/siste", (req: express$Request, res: express$Response) => {
     console.log("/artikler/siste: fikk request fra klient");
     articleDao.getSiste((status, data) => {
         res.status(status);
@@ -74,7 +74,7 @@ app.get("/artikkler/scroll/siste", (req, res) => {
     });
 });
 
-app.get("/artikkler/kategori/:id/:limit", (req, res) => {
+app.get("/artikkler/kategori/:id/:limit", (req: express$Request, res: express$Response) => {
     console.log("/artikler/kategori: fikk request fra klient");
     articleDao.getArticleByCat(req.params.id, parseInt(req.params.limit),(status, data) => {
         res.status(status);
@@ -82,7 +82,7 @@ app.get("/artikkler/kategori/:id/:limit", (req, res) => {
     });
 });
 
-app.get("/search/:search/:limit", (req, res) => {
+app.get("/search/:search/:limit", (req: express$Request, res: express$Response) => {
     console.log("/artikler/kategori: fikk request fra klient");
     articleDao.getSearch(String(req.params.search), parseInt(req.params.limit),(status, data) => {
         res.status(status);
@@ -90,7 +90,7 @@ app.get("/search/:search/:limit", (req, res) => {
     });
 });
 
-app.get('/artikkel/:id', (req, res) => {
+app.get('/artikkel/:id', (req: express$Request, res: express$Response) => {
     console.log("/article/:id: fikk request fra klient");
     articleDao.getOne(req.params.id,(status, data) => {
         res.status(status);
@@ -98,7 +98,7 @@ app.get('/artikkel/:id', (req, res) => {
     });
 });
 
-app.get("/kategorier", (req, res) => {
+app.get("/kategorier", (req: express$Request, res: express$Response) => {
     console.log("/kategorier: fikk request fra klient");
     articleDao.getCategories((status, data) => {
         res.status(status);
@@ -106,7 +106,7 @@ app.get("/kategorier", (req, res) => {
     });
 });
 
-app.delete("/artikkel/:id", (req, res) => {
+app.delete("/artikkel/:id", (req: express$Request, res: express$Response) => {
     console.log("/article/:id: fikk slett-request fra klient");
     articleDao.deleteOne(parseInt(req.params.id),(status, data) => {
         res.status(status);
@@ -114,7 +114,7 @@ app.delete("/artikkel/:id", (req, res) => {
     });
 });
 
-app.delete("/kommentarer/:artikkelid", (req, res) => {
+app.delete("/kommentarer/:artikkelid", (req: express$Request, res: express$Response) => {
     console.log("/article/:id: fikk slett-request fra klient");
     articleDao.deleteComments(parseInt(req.params.artikkelid),(status, data) => {
         res.status(status);
@@ -122,7 +122,7 @@ app.delete("/kommentarer/:artikkelid", (req, res) => {
     });
 });
 
-app.get("/kommentarer/:id", (req, res) => {
+app.get("/kommentarer/:id", (req: express$Request, res: express$Response) => {
     console.log("Fikk get-request fra klienten");
     articleDao.getComments(req.params.id, (status, data) => {
         res.status(status);
