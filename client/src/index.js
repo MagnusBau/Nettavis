@@ -452,8 +452,9 @@ class LastOpp extends Component {
         let tempArticle = new Artikkel( this.tittel, this.tekst, this.bilde, this.forfatter, this.viktighet, this.kategori, this.alt);
         artikkelService.postArticle(tempArticle)
             .then((response) => {
-                history.push('/');
+                window.location.reload()
             }, console.log("Artikkel lastet opp"))
+            .then(history.push('/'))
             .catch((error: Error) => console.error(error.message))
     }
 
@@ -600,8 +601,9 @@ class edit extends Component<{match : {params: {id: number}}}>{
             let tempArticle = new Artikkel(this.selectedArticle.tittel, this.selectedArticle.tekst, this.selectedArticle.bilde, this.selectedArticle.forfatter, this.selectedArticle.viktighet, this.selectedArticle.kategoriid, this.selectedArticle.alt);
             artikkelService.updateArticle(this.selectedArticle.id, tempArticle)
                 .then((response) => {
-                    history.push('/article/' + this.selectedArticle.id);
+                    window.location.reload()
                 }, console.log("Artikkel oppdatert"))
+                .then(history.push('/article/' + this.selectedArticle.id))
                 .catch((error: Error) => console.error(error.message));
         }
     }
