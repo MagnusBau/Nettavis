@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
-import { Scroll, Kategorier, Nyheter } from '../src/index.js';
+import { Scroll, Kategorier, Nyheter, artikkelService } from '../src/index.js';
 import { shallow, mount } from 'enzyme';
-import {Artikkel, ArtikkelService} from "../src/Service";
+import {Artikkel} from "../src/Service";
 
 describe('Scroll test', () => {
     const wrapper = shallow(<Scroll/>);
@@ -11,7 +11,7 @@ describe('Scroll test', () => {
     it('initially', () => {
         let instance = Scroll.instance();
         expect(typeof instance).toEqual('object');
-        jest.spyOn(ArtikkelService, 'getSiste').mockResolvedValue([]);
+        jest.spyOn(artikkelService, 'getSiste').mockResolvedValue([]);
         wrapper.update();
         if (instance) expect(wrapper.debug()).toMatchSnapshot();
     });
@@ -19,7 +19,8 @@ describe('Scroll test', () => {
     it('after load', () => {
         // $flow-disable-line
         let ArtikkelList: Artikkel[] = [new Artikkel("test", "test", "test", "test", '1', '1', "test")];
-        jest.spyOn(ArtikkelService, 'getSiste').mockResolvedValue(ArtikkelList);
+        ArtikkelList[0].id = 1;
+        jest.spyOn(artikkelService, 'getSiste').mockResolvedValue(ArtikkelList);
         wrapper.update();
         let instance = Scroll.instance();
         expect(typeof instance).toEqual('object');
@@ -38,7 +39,7 @@ describe('Kategorier test', () => {
     it('initially', () => {
         let instance = Kategorier.instance();
         expect(typeof instance).toEqual('object');
-        jest.spyOn(ArtikkelService, 'getArticleBycat').mockResolvedValue([]);
+        jest.spyOn(artikkelService, 'getArticleBycat').mockResolvedValue([]);
         wrapper.update();
         if (instance) expect(wrapper.debug()).toMatchSnapshot();
     });
@@ -46,7 +47,8 @@ describe('Kategorier test', () => {
     it('after load', () => {
         // $flow-disable-line
         let ArtikkelList: Artikkel[] = [new Artikkel("test", "test", "test", "test", '1', '1', "test")];
-        jest.spyOn(ArtikkelService, 'getArticleBycat').mockResolvedValue(ArtikkelList);
+        ArtikkelList[0].id = 1;
+        jest.spyOn(artikkelService, 'getArticleBycat').mockResolvedValue(ArtikkelList);
         wrapper.update();
         let instance = Kategorier.instance();
         expect(typeof instance).toEqual('object');
@@ -65,7 +67,7 @@ describe('Nyheter test', () => {
     it('initially', () => {
         let instance = Nyheter.instance();
         expect(typeof instance).toEqual('object');
-        jest.spyOn(ArtikkelService, 'getNyheter').mockResolvedValue([]);
+        jest.spyOn(artikkelService, 'getNyheter').mockResolvedValue([]);
         wrapper.update();
         if (instance) expect(wrapper.debug()).toMatchSnapshot();
     });
@@ -73,7 +75,8 @@ describe('Nyheter test', () => {
     it('after load', () => {
         // $flow-disable-line
         let ArtikkelList: Artikkel[] = [new Artikkel("test", "test", "test", "test", '1', '1', "test")];
-        jest.spyOn(ArtikkelService, 'getNyheter').mockResolvedValue(ArtikkelList);
+        ArtikkelList[0].id = 1;
+        jest.spyOn(artikkelService, 'getNyheter').mockResolvedValue(ArtikkelList);
         wrapper.update();
         let instance = Nyheter.instance();
         expect(typeof instance).toEqual('object');

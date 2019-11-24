@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Kategorier test after load 1`] = `
+"<div>
+  <div className=\\"container\\">
+    <div className=\\"row justify-content-center\\">
+      <NavLink exact={true} to=\\"/article/1\\" className=\\"custom-card\\">
+        <Article title=\\"test\\" image=\\"test\\" alt=\\"test\\" id={1} />
+      </NavLink>
+    </div>
+  </div>
+  <div className=\\"row justify-content-center\\" style={{...}}>
+    <ButtonInfo onClick={[Function: bound loadMore]}>
+      Last inn flere artikler
+    </ButtonInfo>
+  </div>
+</div>"
+`;
+
+exports[`Kategorier test initially 1`] = `
+"<div>
+  <div className=\\"container\\">
+    <div className=\\"row justify-content-center\\" />
+  </div>
+  <div className=\\"row justify-content-center\\" style={{...}}>
+    <ButtonInfo onClick={[Function: bound loadMore]}>
+      Last inn flere artikler
+    </ButtonInfo>
+  </div>
+</div>"
+`;
+
+exports[`Nyheter test after load 1`] = `
+"<div>
+  <div className=\\"container\\">
+    <div className=\\"row justify-content-center\\">
+      <NavLink exact={true} to=\\"/article/1\\" className=\\"custom-card\\">
+        <Article title=\\"test\\" image=\\"test\\" alt=\\"test\\" id={1} />
+      </NavLink>
+    </div>
+  </div>
+  <div className=\\"row justify-content-center\\" style={{...}}>
+    <ButtonInfo onClick={[Function: bound loadMore]}>
+      Last inn flere artikler
+    </ButtonInfo>
+  </div>
+</div>"
+`;
+
+exports[`Nyheter test initially 1`] = `
+"<div>
+  <div className=\\"container\\">
+    <div className=\\"row justify-content-center\\" />
+  </div>
+  <div className=\\"row justify-content-center\\" style={{...}}>
+    <ButtonInfo onClick={[Function: bound loadMore]}>
+      Last inn flere artikler
+    </ButtonInfo>
+  </div>
+</div>"
+`;
+
+exports[`Scroll test after load 1`] = `
+"<marquee behavior=\\"scroll\\" direction=\\"left\\">
+  <NavLink exact={true} to=\\"/article/1\\" className=\\"scroll\\" style={{...}}>
+    test
+  </NavLink>
+</marquee>"
+`;
+
+exports[`Scroll test initially 1`] = `"<marquee behavior=\\"scroll\\" direction=\\"left\\" />"`;

@@ -12,7 +12,7 @@ module.exports = class ArticleDao extends Dao {
         super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where tidspunkt >= DATE_SUB(NOW(), INTERVAL 1 DAY) order by tidspunkt desc limit ?", [limit], callback);
     }
     getSiste(callback: () => void) {
-        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where tidspunkt >= DATE_SUB(NOW(), INTERVAL 6 hour ) and viktighet = 1 order by tidspunkt desc", [], callback);
+        super.query("Select id, tittel, tekst, bilde, forfatter, viktighet, kategoriid, alt, tidspunkt from artikkel where tidspunkt >= DATE_SUB(NOW(), INTERVAL 12 hour ) and viktighet = 1 order by tidspunkt desc", [], callback);
     }
 
     getArticleByCat(id: number, limit: number, callback: () => void) {

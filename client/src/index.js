@@ -12,7 +12,7 @@ import { createHashHistory } from 'history';
 const history = createHashHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 
-let artikkelService = new ArtikkelService();
+export let artikkelService = new ArtikkelService();
 
 class Menu extends Component {
     kategorier: Kategori[] = [];
@@ -439,11 +439,11 @@ class LastOpp extends Component {
         if(this.viktig){
             this.knapp = "Legg på forsiden";
             this.viktig = false;
-            this.viktighet = 2;
+            this.viktighet = '2';
         }else if(!this.viktig){
             this.knapp = "Ikke legg på forsiden";
             this.viktig = true;
-            this.viktighet = 1;
+            this.viktighet = '1';
         }
     }
 
@@ -585,11 +585,11 @@ class edit extends Component<{match : {params: {id: number}}}>{
         if(this.viktig){
             this.knapp = "Legg på forsiden";
             this.viktig = false;
-            this.selectedArticle.viktighet = 2;
+            this.selectedArticle.viktighet = '2';
         }else if(!this.viktig){
             this.knapp = "Ikke legg på forsiden";
             this.viktig = true;
-            this.selectedArticle.viktighet = 1;
+            this.selectedArticle.viktighet = '1';
         }
     }
 

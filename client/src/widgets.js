@@ -3,10 +3,8 @@
 
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { NavLink } from 'react-router-dom';
 import { createHashHistory } from 'history';
-//$FlowFixMe
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import Modal from 'react-bootstrap/Modal';
 import {ArtikkelService} from './Service'
 
